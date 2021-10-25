@@ -1,0 +1,11 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: test-application
+eureka:
+  client:
+   registerWithEureka: false
+   serviceUrl:
+    defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+feign:  autoconfiguration:    jackson:      enabled: true

@@ -1,0 +1,1 @@
+java -Dspring.profiles.active=dev -jar security\target\security-0.0.1-SNAPSHOT.jar

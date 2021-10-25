@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "name": "app.security.jwt",
+      "type": "com.example.common.model.SecurityConfigParam",
+      "sourceType": "com.example.security.config.security.SecurityBeanConfig",
+      "sourceMethod": "com.example.common.model.SecurityConfigParam applicationConfig() "
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

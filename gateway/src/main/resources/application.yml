@@ -1,0 +1,127 @@
+#server:
+#  port: 8080
+#spring:
+#  servlet:
+#    multipart:
+#      max-file-size: 1000MB
+#      max-request-size: 1000MB
+#      file-size-threshold: 20KB
+#  application:#    name: zuul-server
+#eureka:
+#  client:
+#   serviceUrl:
+#    defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+#cloud:    
+#  zuul:
+#    host:
+#      connect-timeout-millis: 10000
+#      socket-timeout-millis: 60000
+#    routes:
+#        id: users
+#         path: /api/v1/users/
+#          uri: http://localhost:8090/api/v1/users/
+#        id: admin
+#         path: /api/v1/admin/
+#          uri: http://localhost:8090/api/v1/admin/
+      #      serviceId: security-service
+#      uri: http://localhost:8090/
+#      predicates:
+#            - Path: /api/v1/
+#            - Path: /login
+spring:
+  application:
+    name: zuul-server
+  servlet:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+      file-size-threshold: 20KB
+  security:
+    user:
+      name: admin
+      password: admin
+server:
+  port: 8080
+eureka:
+  client:
+   serviceUrl:
+    defaultZone: ${EUREKA_URI:http://admin:admin@localhost:8761/eureka/}
+zuul:
+  sensitive-headers:
+   - Cookie,Set-Cookie
+  routes:
+    security:
+      url: http://admin:admin@localhost:9010/
+    service1:
+      path: /service1/**
+      url: http://admin:admin@localhost:8090
+    service2:
+      path: /service2/**
+      url: http://admin:admin@localhost:9000
+    facebook:
+      path: /facebook/**
+      url: https://www.facebook.com/
+    google:
+      path: /google/**
+      url: https://www.google.com/
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+#eureka:
+#  client:
+#   serviceUrl:
+#    defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+#zuul:
+#  hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 11000
+#  host:
+#    socket-timeout-millis: 60000
+#    connect-timeout-millis: 60000
+#  semaphore:
+#    max-semaphores: 500
+#  sensitive-headers: true
+#  routes:
+#    admin:
+#      serviceId: admin
+#      retryable: true
+#      path: /**
+#  ratelimit:
+#    repository: JPA
+#    enabled: true
+#    policy-list:
+#      admin:
+#        - limit: 10
+#          refresh-interval: 30
+#          type:
+#            - admin
+#
+#ribbon:
+#  eager-load:
+#         enabled: true
+#  ConnectTimeout: 60000
+#  ReadTimeout: 60000
+#  OkToRetryOnAllOperations: false
+#  eureka:
+#    enable: false
+#
+#admin:
+#  ribbon:
+#    listOfServers: http://localhost:8090/**  #configure different hosts for load balancing
+#    maxAutoRetries: 3
+#    MaxAutoRetriesNextServer: 4
+#    retryableStatusCodes: 502,503,504 # which statuses to retry
+
+
+
+
+
+
+

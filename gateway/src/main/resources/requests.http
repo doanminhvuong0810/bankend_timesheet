@@ -1,0 +1,6 @@
+GET http://localhost:8080/api/v1/users/register
+
+###
+GET http://localhost:8090/api/v1/admin/role/newrole
+
+###
