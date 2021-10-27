@@ -77,5 +77,6 @@
 		<module>../discovery</module>
 		<module>../gateway</module>
 		<module>../test</module>
+		<module>../timesheet</module>
 	</modules>
 </project>

@@ -48,6 +48,9 @@ management:
 logging:
   level:
     root: info
+movie-api:
+  ribbon:
+    listOfServers: http://localhost:9000
 #---
 #server:
 #  port: 3306
