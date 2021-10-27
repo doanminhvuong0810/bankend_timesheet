@@ -63,7 +63,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     httpSecurity.authorizeRequests().and().addFilterBefore(jwtAuthenticationFilter,
         UsernamePasswordAuthenticationFilter.class);
     httpSecurity.userDetailsService(userDetailService);
-    
+//    httpSecurity.httpBasic().disable().authorizeRequests()
+//            .antMatchers("/security-service/**").anonymous()
+//            .and()
+//            .authorizeRequests().anyRequest()
+//            .authenticated().and().csrf().disable();
     
 //    httpSecurity.authorizeRequests().regexMatchers("/api/v1/users/register").permitAll().anyRequest().authenticated();
 //    httpSecurity.authorizeRequests()

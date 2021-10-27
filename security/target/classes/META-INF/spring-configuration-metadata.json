@@ -4,9 +4,125 @@
       "name": "app.security.jwt",
       "type": "com.example.common.model.SecurityConfigParam",
       "sourceType": "com.example.security.config.security.SecurityBeanConfig",
-      "sourceMethod": "com.example.common.model.SecurityConfigParam applicationConfig() "
+      "sourceMethod": "applicationConfig()"
     }
   ],
-  "properties": [],
+  "properties": [
+    {
+      "name": "app.api.allowed-origins",
+      "type": "java.lang.String",
+      "description": "A description for 'api.allowedOrigins'"
+    },
+    {
+      "name": "app.dao.ddl-generation",
+      "type": "java.lang.String",
+      "description": "A description for 'dao.ddl-generation'"
+    },
+    {
+      "name": "app.dao.eclipselink.logging.level",
+      "type": "java.lang.String",
+      "description": "A description for 'eclipselink.logging.level'"
+    },
+    {
+      "name": "app.debug.profile-method",
+      "type": "java.lang.Boolean",
+      "description": "A description for 'api.security.profileMethod'"
+    },
+    {
+      "name": "app.debug.trace-exception",
+      "type": "java.lang.Boolean",
+      "description": "A description for 'api.security.traceException'"
+    },
+    {
+      "name": "app.security.jwt.access-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.access-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.access-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.issuer",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.issuer",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.issuer",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.refresh-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.refresh-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.refresh-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.reset-password-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.reset-password-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.reset-password-token-expiration-second",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.token-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.token-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    },
+    {
+      "name": "app.security.jwt.token-prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.example.common.model.SecurityConfigParam"
+    }
+  ],
   "hints": []
 }
