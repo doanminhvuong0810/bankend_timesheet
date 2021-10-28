@@ -5,14 +5,11 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.example.security.dto.group.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.example.common.dto.request.PatchRequest;
-import com.example.security.dto.group.CreateGroupRequest;
-import com.example.security.dto.group.GetAllGroups;
-import com.example.security.dto.group.SearchGroupRequest;
-import com.example.security.dto.group.UpdateGroupRequest;
 import com.example.security.entity.Group;
 
 public interface GroupService {
@@ -41,4 +38,7 @@ public interface GroupService {
 
 	Page<Group> findByFullTextSearchContains(String filter, Pageable pageable);
 
+    void addUserToGroup(GroupForAdminRequest request);
+
+	void removeUserFromGroup(GroupForAdminRequest request);
 }
