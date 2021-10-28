@@ -6,7 +6,8 @@
 #      max-file-size: 1000MB
 #      max-request-size: 1000MB
 #      file-size-threshold: 20KB
-#  application:#    name: zuul-server
+#  application:
+#    name: zuul-server
 #eureka:
 #  client:
 #   serviceUrl:
@@ -23,7 +24,8 @@
 #        id: admin
 #         path: /api/v1/admin/
 #          uri: http://localhost:8090/api/v1/admin/
-      #      serviceId: security-service
+      
+#      serviceId: security-service
 #      uri: http://localhost:8090/
 #      predicates:
 #            - Path: /api/v1/
@@ -51,6 +53,7 @@ zuul:
    - Cookie,Set-Cookie
   routes:
     security:
+      path: /**
       url: http://admin:admin@localhost:9010/
     service1:
       path: /service1/**

@@ -30,8 +30,10 @@ import com.example.security.service.UserRoleService;
 @RequestMapping("/api/v1/admin/role")
 @Validated
 public class RoleMgtCtrl {
+
    @Autowired
    private RoleService roleService;
+
    @Autowired
    private UserRoleRelRepo userRoleRelRepo;
    

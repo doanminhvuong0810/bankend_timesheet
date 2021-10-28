@@ -47,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 
+
+
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity.csrf().disable();
     httpSecurity.cors().configurationSource(new CorsConfigSource());
