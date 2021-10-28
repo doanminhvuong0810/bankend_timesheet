@@ -1,13 +1,16 @@
 package com.example.security.ctrl;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.example.security.dto.group.GroupForAdminRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -128,4 +131,29 @@ public class GroupMgtCtrl {
 		Page<Group> pageData = groupService.advanceSearch(filter, searchRequest, pageable);
 		return new PageResponse<Group>(pageData);
 	}
+
+	@PostMapping(path = "/{id}", params = "username")
+	@ResponseStatus(HttpStatus.OK)
+	private Map<String, String> addUserToGroup(@RequestParam("username") String username, @PathVariable("id") String id) {
+		GroupForAdminRequest request = new GroupForAdminRequest();
+		request.setUsername(username);
+		request.setId(id);
+		groupService.addUserToGroup(request);
+		Map<String, String> successHandler = new HashMap<>();
+		successHandler.put("status", "200");
+		return successHandler;
+	}
+
+	@DeleteMapping(path = "/{id}", params = "username")
+	@ResponseStatus(HttpStatus.OK)
+	private Map<String, String> removeUserFromGroup(@RequestParam("username") String username, @PathVariable("id") String id) {
+		GroupForAdminRequest request = new GroupForAdminRequest();
+		request.setUsername(username);
+		request.setId(id);
+		groupService.removeUserFromGroup(request);
+		Map<String, String> successHandler = new HashMap<>();
+		successHandler.put("status", "200");
+		return successHandler;
+	}
+
 }
