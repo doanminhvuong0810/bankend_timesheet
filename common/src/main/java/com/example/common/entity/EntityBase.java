@@ -42,7 +42,7 @@ public abstract class EntityBase {
 
   @Nullable
   @Column(name = "is_deleted", nullable = true)
-  private boolean isDeleted;
+  private boolean isDeleted = true;
 
   @Nullable
   @CreatedDate

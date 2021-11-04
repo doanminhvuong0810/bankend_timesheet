@@ -49,11 +49,14 @@ eureka:
    serviceUrl:
     defaultZone: ${EUREKA_URI:http://admin:admin@localhost:8761/eureka/}
 zuul:
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
   sensitive-headers:
    - Cookie,Set-Cookie
   routes:
     security:
-      path: /**
+      path: /security/**
       url: http://admin:admin@localhost:9010/
     service1:
       path: /service1/**
@@ -67,8 +70,19 @@ zuul:
     google:
       path: /google/**
       url: https://www.google.com/
-    
-  
+    timesheet:
+      part: /timesheet/**
+      url: http://admin:admin@localhost:9040/
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
   
   
   

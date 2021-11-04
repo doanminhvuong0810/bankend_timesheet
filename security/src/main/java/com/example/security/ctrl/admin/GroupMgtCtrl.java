@@ -4,6 +4,7 @@ package com.example.security.ctrl.admin;
 import com.example.common.dto.response.InsertSuccessResponse;
 import com.example.common.dto.response.SuccessResponse;
 import com.example.security.dto.group.CreateGroupRequest;
+import com.example.security.dto.group.GetAllGroups;
 import com.example.security.entity.Group;
 import com.example.security.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,12 @@ import java.util.Optional;
 public class GroupMgtCtrl {
     @Autowired
     private GroupService groupService;
+
+    @GetMapping("get")
+    @ResponseStatus(HttpStatus.OK)
+    public List<GetAllGroups> getAllGroups(){
+        return groupService.getAllGroups();
+    }
 
     @PostMapping("new")
     @ResponseStatus(HttpStatus.OK)

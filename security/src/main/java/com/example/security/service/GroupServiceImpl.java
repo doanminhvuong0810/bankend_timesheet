@@ -44,12 +44,19 @@ public class GroupServiceImpl implements GroupService {
         try {
             List<Group> groups = groupRepo.findAll();
             List<GetAllGroups> getAllGroups = new ArrayList<>();
-            BeanUtils.copyProperties(getAllGroups, groups);
+            groups.forEach(group -> {
+                GetAllGroups allGroup = new GetAllGroups();
+                allGroup.setId(group.getId());
+                allGroup.setName(group.getName());
+                getAllGroups.add(allGroup);
+            });
+
             return getAllGroups;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public Optional<Group> findById(String id) {
