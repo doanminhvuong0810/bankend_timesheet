@@ -21,6 +21,7 @@ import com.example.common.config.Constants;
 
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 
 @Data
@@ -29,35 +30,36 @@ import lombok.ToString;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class EntityBase {
   @Id
-  @NotNull
   @Column(name = "id", length = Constants.ID_MAX_LENGTH)
   @Size(max  = Constants.ID_MAX_LENGTH)
   @UuidGenerator(name="UUID")
   @GeneratedValue(generator = "UUID")
   private String id;
 
-  @NotNull
-  @Column(name = "is_active", nullable = false)
+  @Nullable
+  @Column(name = "is_active", nullable = true)
   private boolean isActive = true;
 
-  @NotNull
-  @Column(name = "is_deleted", nullable = false)
-  private boolean isDeleted = true;
-  
-  @NotNull
-  @CreatedDate
-  @Column(name = "created_date", updatable = false, nullable = false, columnDefinition = "TIMESTAMP")
-  private LocalDateTime createdDate;
+  @Nullable
+  @Column(name = "is_deleted", nullable = true)
+  private boolean isDeleted;
 
+  @Nullable
+  @CreatedDate
+  @Column(name = "created_date", updatable = false, nullable = true, columnDefinition = "TIMESTAMP")
+  private LocalDateTime createdDate = LocalDateTime.now();
+
+  @Nullable
   @LastModifiedDate
   @Column(name = "modified_date", columnDefinition = "TIMESTAMP")
-  private LocalDateTime modifiedDate;
-  
-  @NotNull
-  @CreatedBy
-  @Column(name = "created_user", updatable = true, nullable = false)
-  private String createdUser;
+  private LocalDateTime modifiedDate  = LocalDateTime.now();
 
+  @Nullable
+  @CreatedBy
+  @Column(name = "created_user", updatable = true, nullable = true)
+  private String createdUser = "SYSTEM";
+
+  @Nullable
   @LastModifiedBy
   @Column(name = "modified_user")
   private String modifiedUser;

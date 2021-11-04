@@ -3,12 +3,13 @@ package com.example.security.service;
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.naming.AuthenticationException;
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.directory.*;
 import javax.validation.Valid;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -64,8 +65,8 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private UserRoleRelRepo userRoleRelRepo;
   private String id;
-  
-  
+
+
   
   
   @Override
@@ -194,9 +195,26 @@ public class UserServiceImpl implements UserService {
     }
     return specList;
   }
-
+  DirContext connection;
+  public void newConnection(){
+		Properties env = new Properties();
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+		env.put(Context.PROVIDER_URL, "ldap://localhost:10389");
+		env.put(Context.SECURITY_PRINCIPAL, "uid=admin, ou=system");
+		env.put(Context.SECURITY_CREDENTIALS, "secret");
+		try {
+			connection = new InitialDirContext(env);
+			System.out.println("hello world : " + connection);
+		}
+		catch (AuthenticationException exception){
+			System.out.println(exception.getMessage());
+		}
+		catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
   @Override
-  public void register(@Valid RegisterUserRequest request) {
+  public void register(@Valid RegisterUserRequest request){
     try {
       String userName = request.getName();
       Optional<User> oUser = userRepo.findByNameIgnoreCase(userName);
@@ -213,8 +231,23 @@ public class UserServiceImpl implements UserService {
       System.out.println("danh sach adbdsadkuadqa : "+ u.getId());
       UserRoleRel userRoleRel = new UserRoleRel();
       userRoleRel.setUserId(u.getId());
-       userRoleRel.setRoleId(roleRepo.findRoleByName("ROLE_USERS").getId()); 
-     
+       userRoleRel.setRoleId(roleRepo.findRoleByName("ROLE_ADMIN").getId());
+
+       //thêm vào ldap
+      this.newConnection();
+      Attributes attributes = new BasicAttributes();
+      Attribute attribute = new BasicAttribute("objectClass");
+      attribute.add("inetOrgPerson");
+      attributes.put(attribute);
+      // user details
+      attributes.put("sn", ""+ u.getDisplayName());
+      try {
+        connection.createSubcontext("cn="+ u.getName()+",ou=users,ou=system", attributes);
+        System.out.println("success");
+      } catch (NamingException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
       //.get().getId()
 //      List<RoleForUserRegister> inpuRoleUser = request.getListUserRoleRels();
 //      List<UserRoleRel> userRoleRels = inpuRoleUser.stream().map( e -> {               

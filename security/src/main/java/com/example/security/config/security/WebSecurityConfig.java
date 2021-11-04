@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private UserDetailsService userDetailService;
   @Value("${app.api.allowed-origins}")
   private String[] allowedOrigin;
-  
+
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -59,9 +59,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .failureHandler(loginFailureHandler);
     httpSecurity.authorizeRequests().and().logout().logoutUrl("/api/v1/logout")
         .logoutSuccessHandler(logoutSuccessHandler);
-    httpSecurity.authorizeRequests()
-    .antMatchers("/api/v1/users/**").hasAnyRole("ADMIN", "USERS")
-    .antMatchers("/api/v1/admin/**").hasRole("ADMIN");
+    httpSecurity.authorizeRequests().antMatchers("/api/v2").permitAll();
+//    httpSecurity.authorizeRequests().anyRequest().authenticated();
+
+//    httpSecurity.authorizeRequests()
+//    .antMatchers("/api/v1/users/**").hasAnyRole("ADMIN", "USERS")
+//    .antMatchers("/api/v1/admin/**").hasRole("ADMIN");
     httpSecurity.authorizeRequests().and().addFilterBefore(jwtAuthenticationFilter,
         UsernamePasswordAuthenticationFilter.class);
     httpSecurity.userDetailsService(userDetailService);
