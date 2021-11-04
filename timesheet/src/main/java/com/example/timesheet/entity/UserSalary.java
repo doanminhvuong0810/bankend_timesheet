@@ -23,7 +23,7 @@ public class UserSalary extends EntityBase {
     @NotNull
     @Column(name = "salaryId", nullable = false, length = Constants.ID_MAX_LENGTH)
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
-    private String salaryID;
+    private String salaryId;
 
     @JsonIgnore
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST,
@@ -33,10 +33,10 @@ public class UserSalary extends EntityBase {
 
     @NotNull
     @Column(nullable = false, name="salary_day")
-    private String salaryDay;
+    private Double salaryDay;
 
     @Nullable
-    @Column(name = "bonusId", nullable = false, length = Constants.ID_MAX_LENGTH)
+    @Column(name = "bonusId", nullable = true, length = Constants.ID_MAX_LENGTH)
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
     private String bonusId;
 
@@ -46,12 +46,12 @@ public class UserSalary extends EntityBase {
     @JoinColumn(name = "bonusId", insertable = false, updatable = false, referencedColumnName = "id")
     private Bonus bonus;
 
-    @NotNull
-    @Column(nullable = false, name="total")
+    @Nullable
+    @Column(nullable = true, name="total")
     private Double total;
 
-    @NotNull
-    @Column(nullable = false, name="date")
-    private LocalDateTime date;
+    @Nullable
+    @Column(nullable = true, name="date")
+    private LocalDateTime date = LocalDateTime.now();
 
 }
