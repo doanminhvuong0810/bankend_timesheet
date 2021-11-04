@@ -16,5 +16,10 @@ public class UserSalaryCreatAuto {
     @Nullable
     private String bonusId;
 
+    @NotNull
+    private Double salaryDay;
+
+    @Nullable
+    private Double total;
 
 }

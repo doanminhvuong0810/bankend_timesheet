@@ -5,24 +5,25 @@ spring:
     name: Timesheet-service
   servlet:
     multipart:
+
       max-file-size: 1000MB
       max-request-size: 1000MB
       file-size-threshold: 20KB
-#  security:
-#    user:
-#      name: admin
-#      password: admin
+  security:
+    user:
+      name: admin
+      password: admin
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://${127.0.0.1:localhost}:3306/testconnect
-#    username: root
-#    password: 123@Aa321
+    url: jdbc:mysql://${127.0.0.1:localhost}:3306/testconnect
+    username: root
+    password: 123@Aa321
 #    url: jdbc:mysql://kl1ng6arcppjvfqo:grwqltrxaa9cdsi9@r6ze0q02l4me77k3.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/obflkoj0x51r6z6x
 #    username: kl1ng6arcppjvfqo
 #    password: grwqltrxaa9cdsi9
-    url: jdbc:mysql://timesheet.clgsfbgvscxg.us-east-2.rds.amazonaws.com/timesheet
-    username: admin
-    password: 88888888
+#    url: jdbc:mysql://timesheet.clgsfbgvscxg.us-east-2.rds.amazonaws.com/timesheet
+#    username: admin
+#    password: 88888888
 
     #    url: jdbc:mysql://testsecurity.clgsfbgvscxg.us-east-2.rds.amazonaws.com:3306/testconnect
     #    username: admin
@@ -41,14 +42,14 @@ spring:
 springdoc:
   swagger-ui:
     disable-swagger-default-url: true
-#eureka:
-#  #zuul:
-#  client:
-#    serviceUrl:
-#      defaultZone: ${EUREKA_URI:http://admin:admin@localhost:8761/eureka/}
-#    #     defaultZone: ${ZUUL_URI:http://localhost:8080/}
-#    healthcheck:
-#      enabled: true
+eureka:
+  #zuul:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://admin:admin@localhost:8761/eureka/}
+    #     defaultZone: ${ZUUL_URI:http://localhost:8080/}
+    healthcheck:
+      enabled: true
 management:
   endpoint:
     health:
