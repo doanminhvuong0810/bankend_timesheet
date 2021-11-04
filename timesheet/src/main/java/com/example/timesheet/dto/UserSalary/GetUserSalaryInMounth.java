@@ -3,17 +3,14 @@ package com.example.timesheet.dto.UserSalary;
 import io.micrometer.core.lang.Nullable;
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
-import javax.persistence.Column;
-import java.time.LocalDateTime;
 import java.util.Date;
 
-@Setter
 @Getter
-public class GetAllUserSalary {
+@Setter
+public class GetUserSalaryInMounth {
     private String userName;
-    private Date date;
+    private Integer month;
     private Double salaryDay;
     @Nullable
     private Double bonusDay;

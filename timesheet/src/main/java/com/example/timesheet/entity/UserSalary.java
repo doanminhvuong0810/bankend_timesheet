@@ -11,7 +11,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -52,6 +54,6 @@ public class UserSalary extends EntityBase {
 
     @Nullable
     @Column(nullable = true, name="date")
-    private LocalDateTime date = LocalDateTime.now();
+    private Date date;
 
 }

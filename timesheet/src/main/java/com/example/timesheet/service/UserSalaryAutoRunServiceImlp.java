@@ -78,8 +78,11 @@ public class UserSalaryAutoRunServiceImlp {
                 UserSalaryCreatAuto userSalaryCreatAuto = new UserSalaryCreatAuto();
                 userSalaryCreatAuto.setSalaryId(salary1.getId());
                 userSalaryCreatAuto.setSalaryDay(salaryDay);
+
 //                userSalaryCreatAuto.setTotal();
+
                 UserSalary userSalary = new UserSalary();
+                userSalary.setDate(new Date());
                 BeanUtils.copyProperties(userSalaryCreatAuto, userSalary);
                 userSalaryRepo.save(userSalary);
             } catch (Exception e){
@@ -90,13 +93,29 @@ public class UserSalaryAutoRunServiceImlp {
 
     @Scheduled(cron = "0 2 0 ? * SAT,SUN")
     public void fetchDBJob() {
-        List<Salary> salaries = salaryRepo.findAll();
-        salaries.forEach(salary -> {
-            System.out.println("fetch service call in " + new Date().toString());
-            System.out.println("no of record fetched : " + salary.getId());
-        });
-
-
+        List<Salary> salary = new ArrayList<>();
+//        user.setName("user" + new Random().nextInt(374483));
+//        dao.save(user);
+        salary = salaryRepo.findAll();
+        for (int i = 0; i < salary.size(); i++) {
+            try {
+                System.out.println("fetch service call in " + new Date().toString());
+                System.out.println("no of record fetched : " + salary.get(i));
+//            System.out.println("add service call in " + new Date().toString());
+                Salary salary1 = salary.get(i);
+                this.amountOneDay(salary1.getSalary());
+                UserSalaryCreatAuto userSalaryCreatAuto = new UserSalaryCreatAuto();
+                userSalaryCreatAuto.setSalaryId(salary1.getId());
+                userSalaryCreatAuto.setSalaryDay(0.0);
+//                userSalaryCreatAuto.setTotal();
+                UserSalary userSalary = new UserSalary();
+                userSalary.setDate(new Date());
+                BeanUtils.copyProperties(userSalaryCreatAuto, userSalary);
+                userSalaryRepo.save(userSalary);
+            } catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
 //
 //        log.info("users : {}", users);
     }
