@@ -15,7 +15,6 @@ import com.example.security.entity.Role;
  * @author Pham Duc Manh
  *
  */
-@Transactional
 @Repository
 public interface RoleRepo extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role>{
   Role findRoleByName(String name);
