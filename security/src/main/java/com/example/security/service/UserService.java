@@ -20,7 +20,9 @@ import com.example.security.entity.User;
 
 public interface UserService {
 
-  User create(CreateUserRequest user);
+    List<GetAllUsers> getAllUsers();
+
+    User create(CreateUserRequest user);
 
   void updateAllFields(String id, UpdateUserRequest user);
 
@@ -41,6 +43,5 @@ public interface UserService {
   void resetPassword(@Valid ResetPasswordRequest request);
 
   String recoveryRequest(@Valid ForgotPasswordRequest request);
-  List<User> getAllUser();
 
 }

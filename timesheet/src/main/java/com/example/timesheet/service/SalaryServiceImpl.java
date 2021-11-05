@@ -1,6 +1,7 @@
 package com.example.timesheet.service;
 
 import com.example.timesheet.dto.salary.AddSalaryForUser;
+import com.example.timesheet.dto.salary.GetAllSalary;
 import com.example.timesheet.dto.salary.UpdateSalaryForUser;
 import com.example.timesheet.entity.Bonus;
 import com.example.timesheet.entity.Salary;
@@ -73,11 +74,19 @@ public class SalaryServiceImpl implements  SalaryService{
     }
 
     @Override
-    public List<Salary> getAll() {
+    public List<GetAllSalary> getAll() {
         try {
-            List<Salary> salaries = new ArrayList<>();
-            salaries = salaryRepo.findAll();
-            return salaries;
+            List<Salary> salaries = salaryRepo.findAll();
+            List<GetAllSalary> getall = new ArrayList<>();
+            salaries.forEach(s ->{
+                GetAllSalary allSalary = new GetAllSalary();
+                allSalary.setId(s.getId());
+                allSalary.setUserId(s.getUserId());
+                allSalary.setUserName(s.getUser().getName());
+                allSalary.setSalary(s.getSalary());
+                getall.add(allSalary)
+            });
+            return getall;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

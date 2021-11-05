@@ -66,9 +66,34 @@ public class UserServiceImpl implements UserService {
   private UserRoleRelRepo userRoleRelRepo;
   private String id;
 
+  @Override
+  public List<GetAllUsers> getAllUsers() {
+    try {
+        List<User> user = userRepo.findAll();
+        List<GetAllUsers> getall = new ArrayList<>();
+        user.forEach(u -> {
+          GetAllUsers allUsers = new GetAllUsers() ;
+          allUsers.setId(u.getId());
+          allUsers.setUserName(u.getName());
+          allUsers.setDisplayName(u.getDisplayName());
+          allUsers.setPassword(u.getPassword());
+          allUsers.setFailLoginCount(u.getFailLoginCount());
+          allUsers.setLock(u.isLock());
+          allUsers.setAffectDate(u.getAffectDate());
+          allUsers.setExpireDate(u.getExpireDate());
+          allUsers.setTestAmount(u.getTestAmount());
+          allUsers.setTestSelectId(u.getTestSelectId());
+          allUsers.setUserType(u.getUserType());
+          allUsers.setFullTextSearch(u.getFullTextSearch());
+          getall.add(allUsers);
+        });
+        return getall;
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+  }
 
-  
-  
+
   @Override
   public User create(@Valid CreateUserRequest user) {
     try {
@@ -366,16 +391,16 @@ public class UserServiceImpl implements UserService {
     }
   }
 
-  @Override
-  public List<User> getAllUser() {
-    try {
-    List<User> users;
-    users = userRepo.findAll();
-    List<GetAllUsers> getAllUsers = new ArrayList<>();
-    BeanUtils.copyProperties(getAllUsers, users);
-    return users;
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-  }
+//  @Override
+//  public List<User> getAllUser() {
+//    try {
+//    List<User> users;
+//    users = userRepo.findAll();
+//    List<GetAllUsers> getAllUsers = new ArrayList<>();
+//    BeanUtils.copyProperties(getAllUsers, users);
+//    return users;
+//    } catch (Exception e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 }

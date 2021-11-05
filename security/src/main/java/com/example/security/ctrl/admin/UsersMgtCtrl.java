@@ -2,6 +2,7 @@ package com.example.security.ctrl.admin;
 
 import com.example.common.dto.request.PatchRequest;
 import com.example.common.dto.response.SuccessResponse;
+import com.example.security.dto.user.GetAllUsers;
 import com.example.security.dto.user.RegisterUserRequest;
 import com.example.security.dto.user.UpdateUserRequest;
 import com.example.security.entity.User;
@@ -32,8 +33,8 @@ public class UsersMgtCtrl {
 
     @GetMapping("/listuser")
     @ResponseBody
-    public List<User> getAllUsers() {
-        return userService.getAllUser();
+    public List<GetAllUsers> getAllUsers() {
+        return userService.getAllUsers();
     }
     @GetMapping(value = "/search/name/get")
     @ResponseBody
