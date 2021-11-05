@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class SalaryServiceImpl implements  SalaryService{
     UserRepo userRepo;
 
     @Override
-    public Salary createSalaryForUser(AddSalaryForUser addSalaryForUser) {
+    public Salary createSalaryForUser(@Valid AddSalaryForUser addSalaryForUser) {
 
             Salary salary = salaryRepo.findByUserId(addSalaryForUser.getUserId());
             System.out.println(salary);
@@ -52,7 +53,7 @@ public class SalaryServiceImpl implements  SalaryService{
     }
 
     @Override
-    public Salary updateSalaryForUser(UpdateSalaryForUser updateSalaryForUser) {
+    public Salary updateSalaryForUser(@Valid UpdateSalaryForUser updateSalaryForUser) {
             Optional<Salary> salary = salaryRepo.findById(updateSalaryForUser.getId());
             System.out.println(salary);
             if (salary.isPresent()) {
