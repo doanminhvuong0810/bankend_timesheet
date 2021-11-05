@@ -61,7 +61,6 @@ public class UserSalaryAutoRunServiceImlp {
    }
 
 
-    // schedule a job to add object in DB (Every 5 sec)
 //    @Scheduled(fixedRate = 50000)
     @Scheduled(cron = "0 2 0 ? * MON,TUE,WED,THU,FRI")
     public void add2DBJob() {

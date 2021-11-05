@@ -40,7 +40,7 @@ public class TimeSheetServiceImpl implements TimeSheetService{
     }
 
     @Override
-    public TimeSheet create(AddTypeTimeSheet addTypeTimeSheet) {
+    public TimeSheet create(@Valid AddTypeTimeSheet addTypeTimeSheet) {
         try {
             Optional<TimeSheet> optionalTimeSheet = timesheetRepo.findBytypeTimeSheet(addTypeTimeSheet.getTypeTimeSheet());
             if(optionalTimeSheet.isPresent()){
@@ -56,7 +56,7 @@ public class TimeSheetServiceImpl implements TimeSheetService{
     }
 
     @Override
-    public TimeSheet update(AddTypeTimeSheet addTypeTimeSheet) {
+    public TimeSheet update(@Valid AddTypeTimeSheet addTypeTimeSheet) {
         return null;
     }
 

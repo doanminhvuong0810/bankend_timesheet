@@ -8,6 +8,7 @@ import com.example.timesheet.service.TimeSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class TimeSheetCtrl {
 
     @PostMapping("new")
     @ResponseBody
-    public SuccessResponse newrole(@RequestBody AddTypeTimeSheet addTypeTimeSheet) {
+    public SuccessResponse newrole(@Valid @RequestBody AddTypeTimeSheet addTypeTimeSheet) {
         timeSheetService.create(addTypeTimeSheet);
         return new SuccessResponse();
     }

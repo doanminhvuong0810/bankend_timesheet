@@ -9,8 +9,10 @@ import com.example.timesheet.entity.TimeSheet;
 import com.example.timesheet.service.BonusService;
 import com.example.timesheet.service.TimeSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,13 +29,13 @@ public class BonusCtrl {
 
     @PostMapping("new")
     @ResponseBody
-    public SuccessResponse newBonus(@RequestBody NewBonus newBonus) {
+    public SuccessResponse newBonus(@Valid @RequestBody NewBonus newBonus) {
         bonusService.create(newBonus);
         return new SuccessResponse();
     }
     @PutMapping("update")
     @ResponseBody
-    public SuccessResponse updateBonus(@RequestBody UpdateBonus updateBonus) {
+    public SuccessResponse updateBonus(@Valid @RequestBody UpdateBonus updateBonus) {
         bonusService.update(updateBonus);
         return new SuccessResponse();
     }

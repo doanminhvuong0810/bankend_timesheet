@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
@@ -31,24 +32,33 @@ public class BonusServiceImpl implements BonusService{
 
     @Autowired
     TimeSheetRepo timeSheetRepo;
-//    @Autowired
-//    UserRepo userRepo;
+
+    @Autowired
+    UserRepo userRepo;
     @Override
-    public Bonus create(NewBonus newBonus) {
+    public Bonus create(@Valid NewBonus newBonus) {
             try {
-                String type = newBonus.getTypeTimeSheet();
-                Bonus bonus =  bonusRepo.findByTimeSheetByTypeTimeSheet(type);
+                String userId = newBonus.getUserId();
+                Bonus bonus =  bonusRepo.findByTimeSheetByUserId(userId);
 //      if(rol)
                 if( bonus != null ) {
                     throw new DuplicateKeyException("common.error.dupplicate");
                 } else {
-//                    User user = new User();
-//                    user = userRepo.findByIdGetDL(newBonus.getUserId());
+                    User user = new User();
+                    user = userRepo.findByIdGetDL(newBonus.getUserId());
+                     if(user == null){
+                         throw new NotFoundException("common.error.not-found");
+                     }
                     Bonus b = new Bonus();
                     PropertyUtils.copyProperties(b, newBonus);
-                    TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(type);
+                    TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
                     b.setTimeSheetID(timeSheet.getId());
                     return bonusRepo.save(b);
+
+
+
+
+
                 }
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
@@ -67,7 +77,7 @@ public class BonusServiceImpl implements BonusService{
     }
 
     @Override
-    public Bonus update(UpdateBonus updateBonus) {
+    public Bonus update(@Valid UpdateBonus updateBonus) {
         try {
             Optional<Bonus> optionalBonus = bonusRepo.findById(updateBonus.getId());
             if (optionalBonus.isPresent()) {
