@@ -3,6 +3,7 @@ package com.example.timesheet.ctrl;
 import com.example.common.dto.response.InsertSuccessResponse;
 import com.example.common.dto.response.SuccessResponse;
 import com.example.timesheet.dto.salary.AddSalaryForUser;
+import com.example.timesheet.dto.salary.GetAllSalary;
 import com.example.timesheet.dto.salary.UpdateSalaryForUser;
 import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
 import com.example.timesheet.entity.Salary;
@@ -17,13 +18,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/timesheet/salary")
 public class SalaryCtrl {
     @Autowired
     SalaryService salaryService;
 
     @GetMapping("get")
-    public List<Salary> getAllTimeSheets(){
+    public List<GetAllSalary> getAllTimeSheets(){
         return salaryService.getAll();
     }
 

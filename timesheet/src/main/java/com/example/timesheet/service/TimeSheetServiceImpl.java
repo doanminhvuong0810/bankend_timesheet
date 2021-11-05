@@ -2,6 +2,7 @@ package com.example.timesheet.service;
 
 import com.example.common.util.SearchUtil;
 import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
+import com.example.timesheet.dto.timesheet.GetAllTimeSheet;
 import com.example.timesheet.dto.timesheet.TimeSheetRequest;
 import com.example.timesheet.entity.TimeSheet;
 import com.example.timesheet.repo.TimeSheetRepo;
@@ -32,11 +33,28 @@ public class TimeSheetServiceImpl implements TimeSheetService{
     TimeSheetRepo timesheetRepo;
 
 
+//    @Override
+//    public List<TimeSheet> getAll() {
+//        List<TimeSheet> listTimeSheet = new ArrayList<>();
+//        listTimeSheet = timesheetRepo.findAll();
+//       return  listTimeSheet;
+//    }
+
     @Override
-    public List<TimeSheet> getAll() {
-        List<TimeSheet> listTimeSheet = new ArrayList<>();
-        listTimeSheet = timesheetRepo.findAll();
-       return  listTimeSheet;
+    public List<GetAllTimeSheet> getAll() {
+        try {
+            List<TimeSheet> ts = timesheetRepo.findAll();
+            List<GetAllTimeSheet> getall = new ArrayList<>();
+            ts.forEach(timesheet -> {
+                GetAllTimeSheet allTS = new GetAllTimeSheet();
+                allTS.setId(timesheet.getId());
+                allTS.setType(timesheet.getTypeTimeSheet());
+                getall.add(allTS);
+            });
+            return getall;
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
