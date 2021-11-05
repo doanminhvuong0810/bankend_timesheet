@@ -44,26 +44,6 @@
       "sourceType": "com.example.common.model.SecurityConfigParam"
     },
     {
-      "name": "app.security.jwt.access-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.access-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.access-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.access-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
       "name": "app.security.jwt.issuer",
       "type": "java.lang.String",
       "sourceType": "com.example.common.model.SecurityConfigParam"
@@ -71,46 +51,6 @@
     {
       "name": "app.security.jwt.issuer",
       "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.issuer",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.issuer",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.issuer",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.issuer",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.refresh-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.refresh-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.refresh-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.refresh-token-expiration-second",
-      "type": "java.lang.Integer",
       "sourceType": "com.example.common.model.SecurityConfigParam"
     },
     {
@@ -134,72 +74,12 @@
       "sourceType": "com.example.common.model.SecurityConfigParam"
     },
     {
-      "name": "app.security.jwt.reset-password-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.reset-password-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.reset-password-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.reset-password-token-expiration-second",
-      "type": "java.lang.Integer",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
       "name": "app.security.jwt.secret-key",
       "type": "java.lang.String",
       "sourceType": "com.example.common.model.SecurityConfigParam"
     },
     {
       "name": "app.security.jwt.secret-key",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.secret-key",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.secret-key",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.secret-key",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.secret-key",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.token-prefix",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.token-prefix",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.token-prefix",
-      "type": "java.lang.String",
-      "sourceType": "com.example.common.model.SecurityConfigParam"
-    },
-    {
-      "name": "app.security.jwt.token-prefix",
       "type": "java.lang.String",
       "sourceType": "com.example.common.model.SecurityConfigParam"
     },
