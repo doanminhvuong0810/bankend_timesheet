@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/timesheet/usersalary")
 public class UserSalaryCtrl {
     @Autowired

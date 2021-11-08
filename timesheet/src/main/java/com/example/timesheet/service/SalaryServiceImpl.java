@@ -84,7 +84,7 @@ public class SalaryServiceImpl implements  SalaryService{
                 allSalary.setUserId(s.getUserId());
                 allSalary.setUserName(s.getUser().getName());
                 allSalary.setSalary(s.getSalary());
-                getall.add(allSalary)
+                getall.add(allSalary);
             });
             return getall;
         } catch (Exception e) {

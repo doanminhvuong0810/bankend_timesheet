@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/timesheet/bonus")
 public class BonusCtrl {
     @Autowired

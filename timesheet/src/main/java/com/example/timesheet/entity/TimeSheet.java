@@ -39,11 +39,18 @@ import lombok.ToString;
 public class TimeSheet extends EntityBase  {
     public static final int TYPE_MAX_LENGTH = 50;
     public static final int TYPE_MIN_LENGTH = 2;
+    public static final int PERCENT_MAX_LENGTH = 1;
+    public static final int PERCENT_MIN_LENGTH = 3;
 
     @NotNull
     @Size(max = TYPE_MAX_LENGTH, min = TYPE_MIN_LENGTH)
     @Column(name = "typeTimeSheet", length = TYPE_MAX_LENGTH)
     private String typeTimeSheet;
+
+    @NotNull
+    @Size(max = PERCENT_MAX_LENGTH, min = PERCENT_MIN_LENGTH)
+    @Column(name = "percent", length = PERCENT_MAX_LENGTH)
+    private Integer percent;
 
     @Nullable
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)

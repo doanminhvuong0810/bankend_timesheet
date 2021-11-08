@@ -10,7 +10,7 @@ import java.util.Date;
 @Setter
 public class GetUserSalaryInMounth {
     private String userName;
-    private Integer month;
+    private String month;
     private Double salaryDay;
     @Nullable
     private Double bonusDay;

@@ -8,6 +8,7 @@ import com.example.timesheet.entity.User;
 import com.example.timesheet.repo.BonusRepo;
 import com.example.timesheet.repo.TimeSheetRepo;
 import com.example.timesheet.repo.UserRepo;
+import com.example.timesheet.repo.UserSalaryRepo;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class BonusServiceImpl implements BonusService{
     TimeSheetRepo timeSheetRepo;
 
     @Autowired
+    UserSalaryRepo userSalaryRepo;
+
+    @Autowired
     UserRepo userRepo;
     @Override
     public Bonus create(@Valid NewBonus newBonus) {
@@ -49,6 +53,9 @@ public class BonusServiceImpl implements BonusService{
                      if(user == null){
                          throw new NotFoundException("common.error.not-found");
                      }
+
+//                    userSalaryRepo
+
                     Bonus b = new Bonus();
                     PropertyUtils.copyProperties(b, newBonus);
                     TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
