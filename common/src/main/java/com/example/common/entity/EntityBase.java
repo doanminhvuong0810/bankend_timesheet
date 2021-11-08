@@ -56,7 +56,7 @@ public abstract class EntityBase {
 
   @Nullable
   @CreatedBy
-  @Column(name = "created_user", updatable = true, nullable = true)
+  @Column(name = "created_user", updatable = false, nullable = true)
   private String createdUser = "SYSTEM";
 
   @Nullable

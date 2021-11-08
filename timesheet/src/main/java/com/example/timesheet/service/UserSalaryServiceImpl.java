@@ -85,7 +85,7 @@ public class UserSalaryServiceImpl implements UserSalaryService{
                         GetUserSalaryInMounth getUserSalaryInMounth = new GetUserSalaryInMounth();
                         getUserSalaryInMounth.setUserName(userRepo.findByIdGetDL(salaryRepo
                                 .findByIdSalary(userSalary.getSalaryId()).getUserId()).getName());
-                        getUserSalaryInMounth.setMonth(month);
+                        getUserSalaryInMounth.setMonth(String.valueOf(userSalary.getDate().getDay())+ "-"+ String.valueOf(monthSql) +"-"+String.valueOf(yearSql));
                         getUserSalaryInMounth.setSalaryDay(userSalary.getSalaryDay());
                         getUserSalaryInMounths.add(getUserSalaryInMounth);
                     } else {
