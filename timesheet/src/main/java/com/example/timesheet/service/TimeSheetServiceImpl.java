@@ -48,6 +48,7 @@ public class TimeSheetServiceImpl implements TimeSheetService{
             ts.forEach(timesheet -> {
                 GetAllTimeSheet allTS = new GetAllTimeSheet();
                 allTS.setId(timesheet.getId());
+                allTS.setPercent(timesheet.getPercent());
                 allTS.setType(timesheet.getTypeTimeSheet());
                 getall.add(allTS);
             });
@@ -56,7 +57,6 @@ public class TimeSheetServiceImpl implements TimeSheetService{
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public TimeSheet create(@Valid AddTypeTimeSheet addTypeTimeSheet) {
         try {
@@ -66,13 +66,13 @@ public class TimeSheetServiceImpl implements TimeSheetService{
             } else {
                 TimeSheet timeSheet = new TimeSheet();
                 timeSheet.setTypeTimeSheet(addTypeTimeSheet.getTypeTimeSheet());
+                timeSheet.setPercent(addTypeTimeSheet.getPercent());
                 return timesheetRepo.save(timeSheet);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public TimeSheet update(@Valid AddTypeTimeSheet addTypeTimeSheet) {
         return null;

@@ -5,11 +5,10 @@ import com.example.timesheet.dto.bonus.UpdateBonus;
 import com.example.timesheet.entity.Bonus;
 import com.example.timesheet.entity.TimeSheet;
 import com.example.timesheet.entity.User;
-import com.example.timesheet.repo.BonusRepo;
-import com.example.timesheet.repo.TimeSheetRepo;
-import com.example.timesheet.repo.UserRepo;
-import com.example.timesheet.repo.UserSalaryRepo;
+import com.example.timesheet.entity.UserSalary;
+import com.example.timesheet.repo.*;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -20,13 +19,20 @@ import org.webjars.NotFoundException;
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
-public class BonusServiceImpl implements BonusService{
+public class BonusServiceImpl implements BonusService {
 
     @Autowired
     BonusRepo bonusRepo;
@@ -39,37 +45,126 @@ public class BonusServiceImpl implements BonusService{
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    SalaryRepo salaryRepo;
+
+    @Autowired
+    UserSalaryAutoRunServiceImlp userSalaryAutoRunServiceImlp;
+
+    private Double salaryBonus;
+
+    public void bonusCount(Integer bonusHours, Integer percent, Double salaryDay) {
+        if (percent > 0) {
+            salaryBonus = (((salaryDay / 8) / 100) * percent) * bonusHours;
+        } else {
+            salaryBonus = 0.0;
+        }
+    }
+
+    private Double salaryDayInMonth;
+
+    public void amountOneDay(Double salary) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Integer count = 0;
+        for (int i = 0; i < LocalDate.now().lengthOfMonth(); i++) {
+            if (LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1).getDayOfWeek().getValue() != DayOfWeek.SATURDAY.getValue()
+                    && LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1).getDayOfWeek().getValue() != DayOfWeek.SUNDAY.getValue()) {
+                count++;
+            }
+            System.out.println(sdf.format(Date.from(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1)
+                    .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())) + " "
+                    + LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1).getDayOfWeek().toString()
+                    + " i=" + String.valueOf(count));
+        }
+        System.out.println("Số ngày làm việc trong tháng: " + String.valueOf(count));
+        salaryDayInMonth = salary / count;
+        System.out.println(salaryDayInMonth);
+    }
+
     @Override
     public Bonus create(@Valid NewBonus newBonus) {
-            try {
-                String userId = newBonus.getUserId();
-                Bonus bonus =  bonusRepo.findByTimeSheetByUserId(userId);
-//      if(rol)
-                if( bonus != null ) {
-                    throw new DuplicateKeyException("common.error.dupplicate");
-                } else {
-                    User user = new User();
-                    user = userRepo.findByIdGetDL(newBonus.getUserId());
-                     if(user == null){
-                         throw new NotFoundException("common.error.not-found");
-                     }
+        try {
+//                String dateNew = String.valueOf();
+//                System.out.println(dateNew);
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            String dateNow = formatter.format(date);
+            System.out.println("zz " + dateNow);
+            Date date1 = formatter.parse(dateNow);
+            String userId = newBonus.getUserId();
+            Bonus bonus = bonusRepo.findByTimeSheetByUserIdAAndTimeSheetID(userId, timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getId(), date1);
+            if (bonus != null) {
+                throw new DuplicateKeyException("common.error.dupplicate");
+            } else {
+                User user = new User();
+                user = userRepo.findByIdGetDL(newBonus.getUserId());
+                if (user == null) {
+                    throw new NotFoundException("common.error.not-found");
+                }
+                String salaryId = salaryRepo.findByUserId(user.getId()).getId();
 
-//                    userSalaryRepo
+                UserSalary userSalary = userSalaryRepo.getUserSalaryByDateAndSalaryId(date1, salaryId);
+                if (userSalary == null) {
+                    throw new NotFoundException("common.error.not-found");
+                }
+                System.out.println(userSalary);
+                System.out.println(date);
+                System.out.println(salaryId);
 
-                    Bonus b = new Bonus();
+                Double salaryDay = userSalary.getSalaryDay();
+                Integer percent = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getPercent();
+                Bonus b = new Bonus();
+                Integer otHours = newBonus.getOtHours();
+
+                if (newBonus.getTypeTimeSheet().equals("On Leave")) {
+                    Double totalB = 0.0;
+                    List<Bonus> bonus1 = new ArrayList<>();
+                    bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
+//                        bonus1.forEach(bonus2 -> {
+//                            totalB = totalB + bonus2.getTotalBonus();
+//                            return totalB;
+//                        });
+                    if (bonus1.size() <= 0) {
+                        totalB = 0.0;
+                    } else {
+                        for (int i = 0; i < bonus1.size(); i++) {
+                            totalB += bonus1.get(i).getTotalBonus();
+                        }
+                    }
+                    System.out.println(totalB);
+                    userSalary.setSalaryDay(0.0);
+                    userSalary.setTotal(totalB);
+                    userSalaryRepo.save(userSalary);
                     PropertyUtils.copyProperties(b, newBonus);
                     TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
                     b.setTimeSheetID(timeSheet.getId());
+                    b.setDate(date1);
+                    b.setTotalBonus(totalB);
+                    System.out.println(b);
                     return bonusRepo.save(b);
-
-
-
-
-
                 }
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                throw new RuntimeException(e);
+                if (newBonus.getTypeTimeSheet().equals("Over Time")) {
+                    b.setOtHours(otHours);
+                    if (salaryDay == 0) {
+                        this.amountOneDay(salaryRepo.findByUserId(userId).getSalary());
+                        this.bonusCount(otHours, percent, salaryDayInMonth);
+                        b.setTotalBonus(salaryBonus);
+                    } else if (salaryDay > 0) {
+                        this.bonusCount(otHours, percent, salaryDay);
+                        b.setTotalBonus(salaryBonus);
+                    }
+                    PropertyUtils.copyProperties(b, newBonus);
+                    TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
+                    b.setTimeSheetID(timeSheet.getId());
+                    b.setDate(date1);
+                    return bonusRepo.save(b);
+                }
+                return b;
             }
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -77,10 +172,10 @@ public class BonusServiceImpl implements BonusService{
         try {
             List<Bonus> bonuses = new ArrayList<>();
             bonuses = bonusRepo.findAll();
-                return bonuses;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            return bonuses;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -89,14 +184,14 @@ public class BonusServiceImpl implements BonusService{
             Optional<Bonus> optionalBonus = bonusRepo.findById(updateBonus.getId());
             if (optionalBonus.isPresent()) {
                 Bonus entityBonus = new Bonus();
-                BeanUtils.copyProperties(entityBonus,optionalBonus );
+                BeanUtils.copyProperties(entityBonus, optionalBonus);
 //                entityBonus.setDeleted(false);
                 bonusRepo.save(entityBonus);
                 return entityBonus;
             } else {
                 return null;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -107,14 +202,14 @@ public class BonusServiceImpl implements BonusService{
             Optional<Bonus> optionalBonus = bonusRepo.findById(id);
             if (optionalBonus.isPresent()) {
                 Bonus entityBonus = new Bonus();
-                BeanUtils.copyProperties(entityBonus,optionalBonus);
+                BeanUtils.copyProperties(entityBonus, optionalBonus);
                 entityBonus.setDeleted(false);
                 bonusRepo.save(entityBonus);
                 return entityBonus;
             } else {
                 return null;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

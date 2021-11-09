@@ -12,12 +12,7 @@ public class GetAllTimeSheet {
     private String id;
 
     @NotNull
-    private String userId;
-
-    @NotNull
-    private String userName;
-
-    
+    private Integer percent;
 
     @NotNull
     private String type;

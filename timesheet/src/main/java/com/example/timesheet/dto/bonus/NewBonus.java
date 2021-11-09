@@ -1,5 +1,6 @@
 package com.example.timesheet.dto.bonus;
 
+import io.micrometer.core.lang.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +17,7 @@ public class NewBonus {
 
     @NotNull
     private String userId;
+
+    @Nullable
+    private Integer otHours;
 }
