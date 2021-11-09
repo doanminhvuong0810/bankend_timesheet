@@ -14,7 +14,9 @@ import org.eclipse.persistence.annotations.TenantDiscriminatorColumn;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -49,6 +51,19 @@ public class Bonus extends EntityBase {
             CascadeType.REFRESH }, targetEntity = TimeSheet.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "timeSheetID", insertable = false, updatable = false, referencedColumnName = "id")
     private TimeSheet timeSheet;
+
+
+    @Nullable
+    @Column(nullable = true, name="otHours")
+    private  Integer otHours;
+
+    @Nullable
+    @Column(nullable = true, name="date")
+    private Date date;
+
+    @NotNull
+    @Column(nullable = false, name="totalBonus")
+    private Double totalBonus;
 
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
     @Column(name = "tenant_id", nullable = false, length = Constants.ID_MAX_LENGTH, insertable = false, updatable = false)

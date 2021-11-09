@@ -27,13 +27,13 @@ public class TimeSheetCtrl {
 
     @PostMapping("new")
     @ResponseBody
-    public SuccessResponse newrole(@Valid @RequestBody AddTypeTimeSheet addTypeTimeSheet) {
+    public SuccessResponse create(@Valid @RequestBody AddTypeTimeSheet addTypeTimeSheet) {
         timeSheetService.create(addTypeTimeSheet);
         return new SuccessResponse();
     }
     @PutMapping("delete/{id}")
     @ResponseBody
-    public SuccessResponse newrole(@PathVariable(value = "id") String id) {
+    public SuccessResponse delete(@PathVariable(value = "id") String id) {
         timeSheetService.delete(id);
         return new SuccessResponse();
     }

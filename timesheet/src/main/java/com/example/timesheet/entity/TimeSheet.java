@@ -8,6 +8,7 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import io.micrometer.core.lang.Nullable;
@@ -39,8 +40,6 @@ import lombok.ToString;
 public class TimeSheet extends EntityBase  {
     public static final int TYPE_MAX_LENGTH = 50;
     public static final int TYPE_MIN_LENGTH = 2;
-    public static final int PERCENT_MAX_LENGTH = 1;
-    public static final int PERCENT_MIN_LENGTH = 3;
 
     @NotNull
     @Size(max = TYPE_MAX_LENGTH, min = TYPE_MIN_LENGTH)
@@ -48,8 +47,7 @@ public class TimeSheet extends EntityBase  {
     private String typeTimeSheet;
 
     @NotNull
-    @Size(max = PERCENT_MAX_LENGTH, min = PERCENT_MIN_LENGTH)
-    @Column(name = "percent", length = PERCENT_MAX_LENGTH)
+    @Column(name = "percent", nullable = false)
     private Integer percent;
 
     @Nullable

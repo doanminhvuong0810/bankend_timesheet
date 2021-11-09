@@ -52,8 +52,8 @@ public class UserSalary extends EntityBase {
     @Column(nullable = true, name="total")
     private Double total;
 
-    @Nullable
-    @Column(nullable = true, name="date")
+    @NotNull
+    @Column(nullable = false, name="date")
     private Date date;
 
 }

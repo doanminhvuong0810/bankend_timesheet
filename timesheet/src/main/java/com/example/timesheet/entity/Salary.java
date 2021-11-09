@@ -28,7 +28,6 @@ import java.util.List;
         @Index(name = "idx_TimeSheetSalary_userid", columnList = "userid", unique = false) })
 @ToString(includeFieldNames = true, callSuper = true)
 public class Salary extends EntityBase {
-
     @NotNull
     @Column(name = "user_id", nullable = false, length = Constants.ID_MAX_LENGTH)
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
