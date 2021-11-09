@@ -17,7 +17,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${127.0.0.1:localhost}:3306/testconnect
     username: root
-    password: 123@Aa321
+    password: 123456
 #    url: jdbc:mysql://kl1ng6arcppjvfqo:grwqltrxaa9cdsi9@r6ze0q02l4me77k3.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/obflkoj0x51r6z6x
 #    username: kl1ng6arcppjvfqo
 #    password: grwqltrxaa9cdsi9

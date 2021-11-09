@@ -43,6 +43,4 @@ public class SecurityMicroserviceApplication {
 //      runSec.newConnection();
   }
 //   UserServiceImpl userService = new UserServiceImpl().newConnection();
-
-
 }

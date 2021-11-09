@@ -107,6 +107,7 @@ public class UserSalaryAutoRunServiceImlp {
                 UserSalaryCreatAuto userSalaryCreatAuto = new UserSalaryCreatAuto();
                 userSalaryCreatAuto.setSalaryId(salary1.getId());
                 userSalaryCreatAuto.setSalaryDay(0.0);
+                userSalaryCreatAuto.setTotal(userSalaryCreatAuto.getSalaryDay());
 //                userSalaryCreatAuto.setTotal();
                 UserSalary userSalary = new UserSalary();
                 userSalary.setDate(new Date());

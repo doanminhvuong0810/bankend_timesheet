@@ -57,6 +57,7 @@ public class BonusServiceImpl implements BonusService {
     public void bonusCount(Integer bonusHours, Integer percent, Double salaryDay) {
         if (percent > 0) {
             salaryBonus = (((salaryDay / 8) / 100) * percent) * bonusHours;
+            System.out.println(salaryBonus);
         } else {
             salaryBonus = 0.0;
         }
@@ -93,10 +94,15 @@ public class BonusServiceImpl implements BonusService {
             System.out.println("zz " + dateNow);
             Date date1 = formatter.parse(dateNow);
             String userId = newBonus.getUserId();
-            Bonus bonus = bonusRepo.findByTimeSheetByUserIdAAndTimeSheetID(userId, timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getId(), date1);
+            TimeSheet idTimeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
+           if (idTimeSheet == null){
+               throw new NotFoundException("common.error.not-found");
+           }
+            Bonus bonus = bonusRepo.findByTimeSheetByUserIdAAndTimeSheetID(userId,idTimeSheet.getId(), date1);
             if (bonus != null) {
                 throw new DuplicateKeyException("common.error.dupplicate");
             } else {
+                // viet cong thuong
                 User user = new User();
                 user = userRepo.findByIdGetDL(newBonus.getUserId());
                 if (user == null) {
@@ -114,9 +120,9 @@ public class BonusServiceImpl implements BonusService {
 
                 Double salaryDay = userSalary.getSalaryDay();
                 Integer percent = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getPercent();
+                System.out.println(percent);
                 Bonus b = new Bonus();
                 Integer otHours = newBonus.getOtHours();
-
                 if (newBonus.getTypeTimeSheet().equals("On Leave")) {
                     Double totalB = 0.0;
                     List<Bonus> bonus1 = new ArrayList<>();
@@ -145,15 +151,52 @@ public class BonusServiceImpl implements BonusService {
                     return bonusRepo.save(b);
                 }
                 if (newBonus.getTypeTimeSheet().equals("Over Time")) {
+                    Double totalB = 0.0;
                     b.setOtHours(otHours);
                     if (salaryDay == 0) {
                         this.amountOneDay(salaryRepo.findByUserId(userId).getSalary());
                         this.bonusCount(otHours, percent, salaryDayInMonth);
-                        b.setTotalBonus(salaryBonus);
+                        List<Bonus> bonus1 = new ArrayList<>();
+                        bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
+//                        bonus1.forEach(bonus2 -> {
+//                            totalB = totalB + bonus2.getTotalBonus();
+//                            return totalB;
+//                        });
+                        if (bonus1.size() <= 0) {
+                            totalB = 0.0;
+                        } else {
+                            for (int i = 0; i < bonus1.size(); i++) {
+                                totalB += bonus1.get(i).getTotalBonus();
+                            }
+                        }
+                        System.out.println(salaryDayInMonth+ "--" + totalB + "-- " + salaryBonus);
+                        Double tolalBonuss = salaryBonus + totalB;
+                        userSalary.setTotal(salaryDay + tolalBonuss);
+                        b.setTotalBonus(tolalBonuss); // salaryBonus
                     } else if (salaryDay > 0) {
                         this.bonusCount(otHours, percent, salaryDay);
-                        b.setTotalBonus(salaryBonus);
+//
+                        List<Bonus> bonus1 = new ArrayList<>();
+                        bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
+//                        bonus1.forEach(bonus2 -> {
+//                            totalB = totalB + bonus2.getTotalBonus();
+//                            return totalB;
+//                        });
+                        if (bonus1.size() <= 0) {
+                            totalB = 0.0;
+                        } else {
+                            for (int i = 0; i < bonus1.size(); i++) {
+                                totalB += bonus1.get(i).getTotalBonus();
+                            }
+                        }
+                        Double tolalBonuss = salaryBonus + totalB;
+                        userSalary.setTotal(salaryDay + tolalBonuss);
+                        b.setTotalBonus(tolalBonuss); // salaryBonus
                     }
+                    System.out.println(totalB);
+                    userSalary.setSalaryDay(salaryDay);
+//                    userSalary.setTotal(salaryDay + tolalBonuss);
+                    userSalaryRepo.save(userSalary);
                     PropertyUtils.copyProperties(b, newBonus);
                     TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
                     b.setTimeSheetID(timeSheet.getId());

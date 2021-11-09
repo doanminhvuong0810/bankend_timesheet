@@ -57,6 +57,10 @@ public class Bonus extends EntityBase {
     @Column(nullable = true, name="otHours")
     private  Integer otHours;
 
+//    @Nullable
+//    @Column(nullable = true, name="otHours")
+//    private  Integer moneyBonus;
+
     @Nullable
     @Column(nullable = true, name="date")
     private Date date;
