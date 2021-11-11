@@ -19,5 +19,6 @@ public interface BonusRepo extends JpaRepository<Bonus, String>, JpaSpecificatio
     @Query("select b from Bonus b where b.user.id=:userID and b.date=:date")
     List<Bonus> findByTimeSheetByUserIdAAndDate(String userID, Date date);
 
+    List<Bonus> findByDate(Date date);
 
 }

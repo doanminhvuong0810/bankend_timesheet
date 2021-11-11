@@ -1,6 +1,7 @@
 package com.example.timesheet.ctrl;
 
 import com.example.common.dto.response.SuccessResponse;
+import com.example.timesheet.dto.bonus.GetAllBonus;
 import com.example.timesheet.dto.bonus.NewBonus;
 import com.example.timesheet.dto.bonus.UpdateBonus;
 import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,8 +25,8 @@ public class BonusCtrl {
     BonusService bonusService;
 
     @GetMapping("get")
-    public List<Bonus> getAllTimeSheets(){
-        return bonusService.getAll();
+    public List<GetAllBonus> getAllTimeSheets(@RequestParam(value = "timeGet")String timeGet){
+        return bonusService.getAll(timeGet);
     }
 
 

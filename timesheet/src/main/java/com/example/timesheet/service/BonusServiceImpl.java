@@ -1,5 +1,6 @@
 package com.example.timesheet.service;
 
+import com.example.timesheet.dto.bonus.GetAllBonus;
 import com.example.timesheet.dto.bonus.NewBonus;
 import com.example.timesheet.dto.bonus.UpdateBonus;
 import com.example.timesheet.entity.Bonus;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.webjars.NotFoundException;
 
 import javax.validation.Valid;
@@ -95,18 +97,18 @@ public class BonusServiceImpl implements BonusService {
             Date date1 = formatter.parse(dateNow);
             String userId = newBonus.getUserId();
             TimeSheet idTimeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
-           if (idTimeSheet == null){
-               throw new NotFoundException("common.error.not-found");
-           }
-            Bonus bonus = bonusRepo.findByTimeSheetByUserIdAAndTimeSheetID(userId,idTimeSheet.getId(), date1);
+            if (idTimeSheet == null) {
+                throw new NotFoundException("common.error.not-found" + newBonus.getTypeTimeSheet());
+            }
+            Bonus bonus = bonusRepo.findByTimeSheetByUserIdAAndTimeSheetID(userId, idTimeSheet.getId(), date1);
             if (bonus != null) {
-                throw new DuplicateKeyException("common.error.dupplicate");
+                throw new DuplicateKeyException("common.error.dupplicate" + bonus.getUserId() + bonus.getTimeSheetID());
             } else {
                 // viet cong thuong
                 User user = new User();
                 user = userRepo.findByIdGetDL(newBonus.getUserId());
                 if (user == null) {
-                    throw new NotFoundException("common.error.not-found");
+                    throw new NotFoundException("common.error.not-found" + newBonus.getUserId());
                 }
                 String salaryId = salaryRepo.findByUserId(user.getId()).getId();
 
@@ -114,15 +116,11 @@ public class BonusServiceImpl implements BonusService {
                 if (userSalary == null) {
                     throw new NotFoundException("common.error.not-found");
                 }
+
                 System.out.println(userSalary);
                 System.out.println(date);
                 System.out.println(salaryId);
-
-                Double salaryDay = userSalary.getSalaryDay();
-                Integer percent = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getPercent();
-                System.out.println(percent);
                 Bonus b = new Bonus();
-                Integer otHours = newBonus.getOtHours();
                 if (newBonus.getTypeTimeSheet().equals("On Leave")) {
                     Double totalB = 0.0;
                     List<Bonus> bonus1 = new ArrayList<>();
@@ -147,10 +145,41 @@ public class BonusServiceImpl implements BonusService {
                     b.setTimeSheetID(timeSheet.getId());
                     b.setDate(date1);
                     b.setTotalBonus(totalB);
+                    b.setUserSalaryId(userSalary.getId());
                     System.out.println(b);
+                    newBonus.setOtHours(0);
+                    newBonus.setMoneyBonus(0);
                     return bonusRepo.save(b);
-                }
-                if (newBonus.getTypeTimeSheet().equals("Over Time")) {
+                } else if (newBonus.getMoneyBonus() >= 0 && newBonus.getOtHours() == null) {
+                    Double salaryDay = userSalary.getSalaryDay();
+                    Double totalB = 0.0;
+                    List<Bonus> bonus1 = new ArrayList<>();
+                    bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
+                    if (bonus1.size() <= 0) {
+                        totalB = 0.0;
+                    } else {
+                        for (int i = 0; i < bonus1.size(); i++) {
+                            totalB += bonus1.get(i).getTotalBonus();
+                        }
+                    }
+                    Double tolalBonuss = newBonus.getMoneyBonus() + totalB;
+                    userSalary.setTotal(userSalary.getTotal() + tolalBonuss);
+                    b.setTotalBonus(tolalBonuss);
+                    System.out.println(totalB);
+                    userSalary.setSalaryDay(salaryDay);
+                    userSalaryRepo.save(userSalary);
+                    PropertyUtils.copyProperties(b, newBonus);
+                    TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
+                    b.setTimeSheetID(timeSheet.getId());
+                    b.setDate(date1);
+                    b.setUserSalaryId(userSalary.getId());
+                    return bonusRepo.save(b);
+                } else if (newBonus.getOtHours() >= 0 && newBonus.getMoneyBonus() == null) {
+                    Double salaryDay = userSalary.getSalaryDay();
+                    Integer percent = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getPercent();
+                    System.out.println(percent);
+                    Integer otHours = newBonus.getOtHours();
+//                    if (newBonus.getTypeTimeSheet().equals("Over Time")) {
                     Double totalB = 0.0;
                     b.setOtHours(otHours);
                     if (salaryDay == 0) {
@@ -169,19 +198,15 @@ public class BonusServiceImpl implements BonusService {
                                 totalB += bonus1.get(i).getTotalBonus();
                             }
                         }
-                        System.out.println(salaryDayInMonth+ "--" + totalB + "-- " + salaryBonus);
+                        System.out.println(salaryDayInMonth + "--" + totalB + "-- " + salaryBonus);
                         Double tolalBonuss = salaryBonus + totalB;
-                        userSalary.setTotal(salaryDay + tolalBonuss);
+                        userSalary.setTotal(userSalary.getTotal() + tolalBonuss);
                         b.setTotalBonus(tolalBonuss); // salaryBonus
                     } else if (salaryDay > 0) {
                         this.bonusCount(otHours, percent, salaryDay);
 //
                         List<Bonus> bonus1 = new ArrayList<>();
                         bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
-//                        bonus1.forEach(bonus2 -> {
-//                            totalB = totalB + bonus2.getTotalBonus();
-//                            return totalB;
-//                        });
                         if (bonus1.size() <= 0) {
                             totalB = 0.0;
                         } else {
@@ -190,20 +215,25 @@ public class BonusServiceImpl implements BonusService {
                             }
                         }
                         Double tolalBonuss = salaryBonus + totalB;
-                        userSalary.setTotal(salaryDay + tolalBonuss);
+                        userSalary.setTotal(userSalary.getTotal() + tolalBonuss);
                         b.setTotalBonus(tolalBonuss); // salaryBonus
                     }
                     System.out.println(totalB);
                     userSalary.setSalaryDay(salaryDay);
-//                    userSalary.setTotal(salaryDay + tolalBonuss);
                     userSalaryRepo.save(userSalary);
                     PropertyUtils.copyProperties(b, newBonus);
                     TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
                     b.setTimeSheetID(timeSheet.getId());
                     b.setDate(date1);
+                    b.setUserSalaryId(userSalary.getId());
                     return bonusRepo.save(b);
                 }
-                return b;
+//                 else if(newBonus.getMoneyBonus() >= 0 && newBonus.getOtHours() >= 0){
+//                     throw new DuplicateKeyException("common.error.dupplicate");
+//                 }
+                else {
+                    throw new DuplicateKeyException("common.error.dupplicate");
+                }
             }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ParseException e) {
             throw new RuntimeException(e);
@@ -211,11 +241,37 @@ public class BonusServiceImpl implements BonusService {
     }
 
     @Override
-    public List<Bonus> getAll() {
+    public List<GetAllBonus> getAll(String timeGet) {
         try {
+
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(timeGet);
+//            String date1 = String.valueOf(date);
+
             List<Bonus> bonuses = new ArrayList<>();
-            bonuses = bonusRepo.findAll();
-            return bonuses;
+            bonuses = bonusRepo.findByDate(date);
+            List<GetAllBonus> getAllBonuses = new ArrayList<>();
+            bonuses.forEach(bonus -> {
+                GetAllBonus getAllBonus = new GetAllBonus();
+                getAllBonus.setId(bonus.getId());
+                getAllBonus.setTypeTimeSheet(timeSheetRepo.findTimeSheetById(bonus.getTimeSheetID()).getTypeTimeSheet());
+                getAllBonus.setUserId(bonus.getUserId());
+                getAllBonus.setDate(bonus.getDate());
+                getAllBonus.setUserName(userRepo.findByIdGetDL(bonus.getUserId()).getName());
+                if(bonus.getOtHours() == null){
+                    getAllBonus.setOtHours(0);
+                } else {
+                    getAllBonus.setOtHours(bonus.getOtHours());
+                }
+                if(bonus.getMoneyBonus() == null){
+                    getAllBonus.setMoneyBonus(0);
+                } else {
+                    getAllBonus.setMoneyBonus(bonus.getMoneyBonus());
+                }
+                getAllBonus.setUserSalaryId(bonus.getUserSalaryId());
+                getAllBonuses.add(getAllBonus);
+            });
+            return getAllBonuses;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

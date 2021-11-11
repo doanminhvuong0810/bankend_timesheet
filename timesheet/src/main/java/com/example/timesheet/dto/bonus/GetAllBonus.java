@@ -1,19 +1,30 @@
 package com.example.timesheet.dto.bonus;
 
+import com.example.common.config.Constants;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
 public class GetAllBonus {
-    @NotNull
+    private String id;
+
     private String typeTimeSheet;
 
-    @NotNull
+    private String userId;
+
+    private Date date;
+
     private String userName;
 
-    private LocalDateTime createDate;
+    private  Integer otHours;
+
+    private  Integer moneyBonus;
+
+    private String userSalaryId;
 }
