@@ -18,5 +18,7 @@ public interface TimeSheetRepo extends JpaRepository<TimeSheet, String>, JpaSpec
   @Query("select t from TimeSheet t where t.typeTimeSheet=:type")
   TimeSheet findOneBytypeTimeSheet(String type);
 
+  TimeSheet findTimeSheetById(String id);
+
 }
 

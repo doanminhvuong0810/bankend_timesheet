@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,16 +38,9 @@ public class UserSalary extends EntityBase {
     @Column(nullable = false, name="salary_day")
     private Double salaryDay;
 
+    @OneToMany(mappedBy = "userSalary")
     @Nullable
-    @Column(name = "bonusId", nullable = true, length = Constants.ID_MAX_LENGTH)
-    @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
-    private String bonusId;
-
-    @JsonIgnore
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH }, targetEntity = Bonus.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "bonusId", insertable = false, updatable = false, referencedColumnName = "id")
-    private Bonus bonus;
+    private List<Bonus> bonus;
 
     @Nullable
     @Column(nullable = true, name="total")

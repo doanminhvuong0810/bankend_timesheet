@@ -57,9 +57,9 @@ public class Bonus extends EntityBase {
     @Column(nullable = true, name="otHours")
     private  Integer otHours;
 
-//    @Nullable
-//    @Column(nullable = true, name="otHours")
-//    private  Integer moneyBonus;
+    @Nullable
+    @Column(nullable = true, name="moneyBonus")
+    private  Integer moneyBonus;
 
     @Nullable
     @Column(nullable = true, name="date")
@@ -73,9 +73,15 @@ public class Bonus extends EntityBase {
     @Column(name = "tenant_id", nullable = false, length = Constants.ID_MAX_LENGTH, insertable = false, updatable = false)
     private String tenantId;
 
-    @OneToMany(mappedBy = "bonus")
     @Nullable
-    private List<UserSalary> userSalaries;
+    @Column(name = "userSalaryId", nullable = true, length = Constants.ID_MAX_LENGTH)
+    @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
+    private String userSalaryId;
 
+    @JsonIgnore
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH }, targetEntity = UserSalary.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userSalaryId", insertable = false, updatable = false, referencedColumnName = "id")
+    private UserSalary userSalary;
 
 }

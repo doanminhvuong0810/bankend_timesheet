@@ -50,10 +50,13 @@ public class UserSalaryServiceImpl implements UserSalaryService{
                 List<GetAllUserSalary> getAllUserSalaries = new ArrayList<>();
                 userSalaryList.forEach(userSalary -> {
                     GetAllUserSalary allUserSalary = new GetAllUserSalary();
+                    allUserSalary.setId(userSalary.getId());
                     allUserSalary.setUserName(userRepo.findByIdGetDL(salaryRepo
                             .findByIdSalary(userSalary.getSalaryId()).getUserId()).getName());
                     allUserSalary.setDate(date);
                     allUserSalary.setSalaryDay(userSalary.getSalaryDay());
+                    allUserSalary.setTotal(userSalary.getTotal());
+                    allUserSalary.setBonus(userSalary.getBonus());
                     getAllUserSalaries.add(allUserSalary);
                 });
                 return getAllUserSalaries;
@@ -72,7 +75,7 @@ public class UserSalaryServiceImpl implements UserSalaryService{
             if (salary == null) {
                 throw new NotFoundException("common.error.not-found");
             }
-            List<UserSalary> userSalaryList = userSalaryRepo.getSalaryUserAndMon(salary.getId());
+            List<UserSalary> userSalaryList = userSalaryRepo.getSalaryUserBySalaryId(salary.getId());
             if (userSalaryList.size() == 0) {
                 throw new NotFoundException("common.error.not-found");
             } else {
