@@ -264,11 +264,12 @@ public class BonusServiceImpl implements BonusService {
                     getAllBonus.setOtHours(bonus.getOtHours());
                 }
                 if(bonus.getMoneyBonus() == null){
-                    getAllBonus.setMoneyBonus(0);
+                    getAllBonus.setMoneyBonus(0.0);
                 } else {
                     getAllBonus.setMoneyBonus(bonus.getMoneyBonus());
                 }
                 getAllBonus.setUserSalaryId(bonus.getUserSalaryId());
+                getAllBonus.setTotalBonus(bonus.getTotalBonus());
                 getAllBonuses.add(getAllBonus);
             });
             return getAllBonuses;

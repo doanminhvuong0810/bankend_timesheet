@@ -59,7 +59,7 @@ public class Bonus extends EntityBase {
 
     @Nullable
     @Column(nullable = true, name="moneyBonus")
-    private  Integer moneyBonus;
+    private  Double moneyBonus;
 
     @Nullable
     @Column(nullable = true, name="date")
