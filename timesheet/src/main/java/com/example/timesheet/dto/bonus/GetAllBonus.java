@@ -24,7 +24,9 @@ public class GetAllBonus {
 
     private  Integer otHours;
 
-    private  Integer moneyBonus;
+    private  Double moneyBonus;
+
+    private  Double totalBonus;
 
     private String userSalaryId;
 }
