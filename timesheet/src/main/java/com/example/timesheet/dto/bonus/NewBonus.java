@@ -22,5 +22,5 @@ public class NewBonus {
     private Integer otHours;
 
     @Nullable
-    private Integer moneyBonus;
+    private Double moneyBonus;
 }

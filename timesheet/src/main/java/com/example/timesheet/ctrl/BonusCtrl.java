@@ -1,6 +1,7 @@
 package com.example.timesheet.ctrl;
 
 import com.example.common.dto.response.SuccessResponse;
+import com.example.timesheet.dto.bonus.FindUserForNew;
 import com.example.timesheet.dto.bonus.GetAllBonus;
 import com.example.timesheet.dto.bonus.NewBonus;
 import com.example.timesheet.dto.bonus.UpdateBonus;
@@ -47,5 +48,9 @@ public class BonusCtrl {
     public SuccessResponse deleteBonus(@PathVariable(value = "id") String id) {
         bonusService.delete(id);
         return new SuccessResponse();
+    }
+    @GetMapping("getbynew")
+    public List<FindUserForNew> findUserForNew(@RequestParam(value = "userName")String userName){
+        return bonusService.findForNew(userName);
     }
 }

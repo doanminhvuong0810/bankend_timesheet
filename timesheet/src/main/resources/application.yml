@@ -25,9 +25,9 @@ spring:
 #    username: admin
 #    password: 88888888
 
-    #    url: jdbc:mysql://testsecurity.clgsfbgvscxg.us-east-2.rds.amazonaws.com:3306/testconnect
-    #    username: admin
-    #    password: 12345678
+#    url: jdbc:mysql://testsecurity.clgsfbgvscxg.us-east-2.rds.amazonaws.com:3306/testconnect
+#    username: admin
+#    password: 12345678
 
     hikari:
       connection-timeout: 6000

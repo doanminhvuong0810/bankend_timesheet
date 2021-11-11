@@ -9,6 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class GetUserSalaryInMounth {
+    private String id;
     private String userName;
     private String month;
     private Double salaryDay;
