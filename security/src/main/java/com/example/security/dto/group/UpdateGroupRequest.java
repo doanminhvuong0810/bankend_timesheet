@@ -14,6 +14,9 @@ import lombok.Setter;
 public class UpdateGroupRequest {
 
 	@NotNull
+	private String id;
+
+	@NotNull
 	@Size(min = Group.NAME_MIN_LENGTH, max = Group.NAME_MAX_LENGTH)
 	private String name;
 

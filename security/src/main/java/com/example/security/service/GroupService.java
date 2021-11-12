@@ -20,6 +20,8 @@ public interface GroupService {
 
 	Group create(CreateGroupRequest group);
 
+	Group update(UpdateGroupRequest updateGroupRequest);
+
 	Group updateAllFields(String id, UpdateGroupRequest group);
 
 	Group updateSomeFields(String id, @Valid PatchRequest<UpdateGroupRequest> patchRequest);

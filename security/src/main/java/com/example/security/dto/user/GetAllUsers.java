@@ -14,7 +14,7 @@ import lombok.Setter;
   @Setter
 public class GetAllUsers {
     private String id;
-    private String userName;
+    private String name;
     private String displayName;
     private String password;
     private Integer failLoginCount;

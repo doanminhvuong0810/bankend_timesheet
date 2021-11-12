@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v2/guest/users")
+@CrossOrigin
 @Validated
 @Tag(name = "User Management Controller")
 public class UsersMgtCtrl {
@@ -36,6 +37,7 @@ public class UsersMgtCtrl {
     public List<GetAllUsers> getAllUsers() {
         return userService.getAllUsers();
     }
+
     @GetMapping(value = "/search/name/get")
     @ResponseBody
     public Optional<User> findByName(@RequestParam("name") String name)  {

@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         user.forEach(u -> {
           GetAllUsers allUsers = new GetAllUsers() ;
           allUsers.setId(u.getId());
-          allUsers.setUserName(u.getName());
+          allUsers.setName(u.getName());
           allUsers.setDisplayName(u.getDisplayName());
           allUsers.setPassword(u.getPassword());
           allUsers.setFailLoginCount(u.getFailLoginCount());
