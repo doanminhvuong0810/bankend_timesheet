@@ -81,6 +81,26 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public Group update(@Valid UpdateGroupRequest updateGroupRequest) {
+        try {
+            Optional<Group> ugr = groupRepo.findById(updateGroupRequest.getId());
+            if(!ugr.isPresent()){
+                throw new NotFoundException("common.error.not-found");
+            } else {
+                try {
+                    Group gr = ugr.get();
+                    PropertyUtils.copyProperties(gr, updateGroupRequest);
+                    return groupRepo.save(gr);
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Group updateAllFields(String id, @Valid UpdateGroupRequest group) {
         Optional<Group> oGroup = groupRepo.findById(id);
         Optional<Group> oGroupByName = groupRepo.findByNameIgnoreCase(group.getName());

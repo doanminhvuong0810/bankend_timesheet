@@ -4,7 +4,7 @@ package com.example.timesheet.ctrl;
 import com.example.common.dto.response.SuccessResponse;
 import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
 import com.example.timesheet.dto.timesheet.GetAllTimeSheet;
-import com.example.timesheet.entity.TimeSheet;
+import com.example.timesheet.dto.timesheet.UpdateTimeSheet;
 import com.example.timesheet.service.TimeSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +31,14 @@ public class TimeSheetCtrl {
         timeSheetService.create(addTypeTimeSheet);
         return new SuccessResponse();
     }
+
+    @PostMapping("update")
+    @ResponseBody
+    public SuccessResponse update(@Valid @RequestBody UpdateTimeSheet updateTimeSheet){
+        timeSheetService.update(updateTimeSheet);
+        return new SuccessResponse();
+    }
+
     @PutMapping("delete/{id}")
     @ResponseBody
     public SuccessResponse delete(@PathVariable(value = "id") String id) {

@@ -7,14 +7,14 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class GetAllTimeSheet {
+public class UpdateTimeSheet {
+
     @NotNull
     private String id;
 
     @NotNull
-    private Integer percent;
+    private String typeTimeSheet;
 
     @NotNull
-    private String type;
-
+    private Integer percent;
 }

@@ -4,8 +4,10 @@ import com.example.common.util.SearchUtil;
 import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
 import com.example.timesheet.dto.timesheet.GetAllTimeSheet;
 import com.example.timesheet.dto.timesheet.TimeSheetRequest;
+import com.example.timesheet.dto.timesheet.UpdateTimeSheet;
 import com.example.timesheet.entity.TimeSheet;
 import com.example.timesheet.repo.TimeSheetRepo;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -13,9 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,8 +78,25 @@ public class TimeSheetServiceImpl implements TimeSheetService{
         }
     }
     @Override
-    public TimeSheet update(@Valid AddTypeTimeSheet addTypeTimeSheet) {
-        return null;
+    public TimeSheet update(@Valid UpdateTimeSheet updateTimeSheet) {
+        try {
+
+            Optional<TimeSheet> optionalTimeSheet = timesheetRepo.findById(updateTimeSheet.getId());
+            if(!optionalTimeSheet.isPresent()){
+                throw new NotFoundException("common.error.not-found");
+            } else {
+                try {
+                    TimeSheet ts = optionalTimeSheet.get();
+                    PropertyUtils.copyProperties(ts, updateTimeSheet);
+                    return timesheetRepo.save(ts);
+                }catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

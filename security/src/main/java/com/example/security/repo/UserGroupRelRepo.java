@@ -28,4 +28,11 @@ public interface UserGroupRelRepo
 
   @Query(value ="select o from UserGroupRel o where o.groupId=:idGroup and o.userId=:idUser and o.isDeleted = false")
   Optional<UserGroupRel> findByIdUserAndIdGroup(String idGroup, String idUser);
+
+  @Query("select  g from UserGroupRel g where  g.group.name like %:groupName%")
+  List <UserGroupRel> allMemberinGroupbyId(String groupName);
+
+  @Query(value ="select o from UserGroupRel o where o.groupId=:idGroup and o.userId=:idUser")
+  UserGroupRel findByIdGrouPAndIdUser(String idGroup, String idUser);
+
 }
