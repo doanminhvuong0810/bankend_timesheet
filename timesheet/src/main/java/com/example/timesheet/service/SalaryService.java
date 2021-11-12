@@ -2,7 +2,9 @@ package com.example.timesheet.service;
 
 import com.example.timesheet.dto.salary.AddSalaryForUser;
 import com.example.timesheet.dto.salary.GetAllSalary;
+import com.example.timesheet.dto.salary.GetByUser;
 import com.example.timesheet.dto.salary.UpdateSalaryForUser;
+import com.example.timesheet.dto.user.LoadUserNameForAddSalary;
 import com.example.timesheet.entity.Salary;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +15,6 @@ public interface SalaryService {
     Salary createSalaryForUser(AddSalaryForUser addSalaryForUser);
     Salary updateSalaryForUser(UpdateSalaryForUser updateSalaryForUser);
     List<GetAllSalary> getAll();
+    GetByUser getByUser(String id);
+    List<LoadUserNameForAddSalary> getByUsername();
 }

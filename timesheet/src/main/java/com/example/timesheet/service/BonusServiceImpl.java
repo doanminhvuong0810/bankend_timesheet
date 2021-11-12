@@ -1,5 +1,6 @@
 package com.example.timesheet.service;
 
+import com.example.timesheet.dto.bonus.FindUserForNew;
 import com.example.timesheet.dto.bonus.GetAllBonus;
 import com.example.timesheet.dto.bonus.NewBonus;
 import com.example.timesheet.dto.bonus.UpdateBonus;
@@ -138,7 +139,8 @@ public class BonusServiceImpl implements BonusService {
                     }
                     System.out.println(totalB);
                     userSalary.setSalaryDay(0.0);
-                    userSalary.setTotal(totalB);
+                    this.amountOneDay(salaryRepo.findByUserId(userId).getSalary());
+                    userSalary.setTotal(userSalary.getTotal() + totalB - salaryDayInMonth);
                     userSalaryRepo.save(userSalary);
                     PropertyUtils.copyProperties(b, newBonus);
                     TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
@@ -148,9 +150,9 @@ public class BonusServiceImpl implements BonusService {
                     b.setUserSalaryId(userSalary.getId());
                     System.out.println(b);
                     newBonus.setOtHours(0);
-                    newBonus.setMoneyBonus(0);
+                    newBonus.setMoneyBonus(0.0);
                     return bonusRepo.save(b);
-                } else if (newBonus.getMoneyBonus() >= 0 && newBonus.getOtHours() == null) {
+                } else if (newBonus.getMoneyBonus() !=null &&newBonus.getMoneyBonus() >= 0 && newBonus.getOtHours() == null) {
                     Double salaryDay = userSalary.getSalaryDay();
                     Double totalB = 0.0;
                     List<Bonus> bonus1 = new ArrayList<>();
@@ -174,7 +176,7 @@ public class BonusServiceImpl implements BonusService {
                     b.setDate(date1);
                     b.setUserSalaryId(userSalary.getId());
                     return bonusRepo.save(b);
-                } else if (newBonus.getOtHours() >= 0 && newBonus.getMoneyBonus() == null) {
+                } else if (newBonus.getOtHours() != null && newBonus.getOtHours() >= 0 && newBonus.getMoneyBonus() == null) {
                     Double salaryDay = userSalary.getSalaryDay();
                     Integer percent = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getPercent();
                     System.out.println(percent);
@@ -312,5 +314,26 @@ public class BonusServiceImpl implements BonusService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<FindUserForNew> findForNew(String userName) {
+        List<User> users = userRepo.findForNewBonus(userName);
+        List<FindUserForNew> findUserForNews = new ArrayList<>();
+        if(users.size() == 0){
+            FindUserForNew findUserForNew = new FindUserForNew();
+            findUserForNew.setUserId("Không có dữ liệu");
+            findUserForNew.setUserName("Không có dữ liệu");
+            findUserForNews.add(findUserForNew);
+        } else {
+            users.forEach(user -> {
+                FindUserForNew findUserForNew = new FindUserForNew();
+                findUserForNew.setUserId(user.getId());
+                findUserForNew.setUserName(user.getName());
+                findUserForNews.add(findUserForNew);
+            });
+        }
+        return  findUserForNews;
+
     }
 }

@@ -5,8 +5,10 @@ import com.example.common.dto.response.SuccessResponse;
 import com.example.timesheet.common.Constant;
 import com.example.timesheet.dto.salary.AddSalaryForUser;
 import com.example.timesheet.dto.salary.GetAllSalary;
+import com.example.timesheet.dto.salary.GetByUser;
 import com.example.timesheet.dto.salary.UpdateSalaryForUser;
 import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
+import com.example.timesheet.dto.user.LoadUserNameForAddSalary;
 import com.example.timesheet.entity.Salary;
 import com.example.timesheet.entity.TimeSheet;
 import com.example.timesheet.service.SalaryService;
@@ -26,8 +28,16 @@ public class SalaryCtrl {
     SalaryService salaryService;
 
     @GetMapping("get")
-    public List<GetAllSalary> getAllTimeSheets(){
+    public List<GetAllSalary> getAllSalary(){
         return salaryService.getAll();
+    }
+    @GetMapping("getusername")
+    public List<LoadUserNameForAddSalary> getByUsername(){
+        return salaryService.getByUsername();
+    }
+    @GetMapping("getbyuser/{id}")
+    public GetByUser getByUserId(@PathVariable(value = "id") String id){
+        return salaryService.getByUser(id);
     }
     @PostMapping("new")
     @ResponseBody

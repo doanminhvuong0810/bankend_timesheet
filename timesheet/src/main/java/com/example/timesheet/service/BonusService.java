@@ -1,5 +1,6 @@
 package com.example.timesheet.service;
 
+import com.example.timesheet.dto.bonus.FindUserForNew;
 import com.example.timesheet.dto.bonus.GetAllBonus;
 import com.example.timesheet.dto.bonus.NewBonus;
 import com.example.timesheet.dto.bonus.UpdateBonus;
@@ -14,4 +15,5 @@ public interface BonusService {
     List<GetAllBonus> getAll(String timeGet);
     Bonus update(UpdateBonus updateBonus);
     Bonus delete(String id);
+    List<FindUserForNew> findForNew(String userName);
 }
