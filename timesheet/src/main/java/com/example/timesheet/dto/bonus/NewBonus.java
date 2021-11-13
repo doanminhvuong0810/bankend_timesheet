@@ -20,4 +20,7 @@ public class NewBonus {
 
     @Nullable
     private Integer otHours;
+
+//    @Nullable
+//    private Integer moneyBonus;
 }
