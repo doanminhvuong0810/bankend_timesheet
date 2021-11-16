@@ -1,8 +1,11 @@
 package com.example.security.service;
 
 import com.example.security.dto.groupuser.AddMemberToGroup;
+import com.example.security.dto.groupuser.ListMemberinGroup;
 import com.example.security.entity.UserGroupRel;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface UserGroupService {
@@ -11,7 +14,7 @@ public interface UserGroupService {
 
     void removemember(String id);
 
-//    Optional<ListMemberinGroup> getlistMemberinGroup̣̣̣̣̣̣(String idGroup, ListMemberinGroup listMemberinGroup);
+    List<ListMemberinGroup> getlistMemberinGroup̣̣̣̣̣̣(String idGroup);
 
 
 }
