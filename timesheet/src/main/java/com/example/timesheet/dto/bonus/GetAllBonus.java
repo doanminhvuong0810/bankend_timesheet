@@ -18,7 +18,7 @@ public class GetAllBonus {
 
     private String userId;
 
-    private Date date;
+    private String date;
 
     private String userName;
 

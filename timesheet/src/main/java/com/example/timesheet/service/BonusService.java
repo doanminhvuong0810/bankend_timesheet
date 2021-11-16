@@ -8,6 +8,7 @@ import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
 import com.example.timesheet.entity.Bonus;
 import com.example.timesheet.entity.TimeSheet;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BonusService {
@@ -16,4 +17,5 @@ public interface BonusService {
     Bonus update(UpdateBonus updateBonus);
     Bonus delete(String id);
     List<FindUserForNew> findForNew(String userName);
-}
+
+ }

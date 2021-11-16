@@ -1,9 +1,6 @@
 package com.example.timesheet.service;
 
-import com.example.timesheet.dto.salary.AddSalaryForUser;
-import com.example.timesheet.dto.salary.GetAllSalary;
-import com.example.timesheet.dto.salary.GetByUser;
-import com.example.timesheet.dto.salary.UpdateSalaryForUser;
+import com.example.timesheet.dto.salary.*;
 import com.example.timesheet.dto.user.LoadUserNameForAddSalary;
 import com.example.timesheet.entity.Bonus;
 import com.example.timesheet.entity.Salary;
@@ -23,6 +20,7 @@ import org.webjars.NotFoundException;
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,5 +134,29 @@ public class SalaryServiceImpl implements  SalaryService{
             loadUserNameForAddSalaries.add(loadUserNameForAddSalary);
         }
        return  loadUserNameForAddSalaries;
+    }
+
+    @Override
+    public List<FindBonusForUsername> getByUsernameFind(String username) {
+        try {
+            List<User> users = userRepo.findForNewBonus(username);
+            if(users.size() == 0){
+                throw new NotFoundException("common.error.not-found");
+            }
+            List<FindBonusForUsername> getall = new ArrayList<>();
+            users.forEach(user -> {
+
+                Salary salaries = salaryRepo.findByUserId(user.getId());
+                FindBonusForUsername allSalary = new FindBonusForUsername();
+                    allSalary.setId(salaries.getId());
+                    allSalary.setUserId(salaries.getUserId());
+                    allSalary.setUserName(salaries.getUser().getName());
+                    allSalary.setSalary(salaries.getSalary());
+                   getall.add(allSalary);
+                });
+            return getall;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

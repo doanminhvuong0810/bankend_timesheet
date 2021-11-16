@@ -3,10 +3,7 @@ package com.example.timesheet.ctrl;
 import com.example.common.dto.response.InsertSuccessResponse;
 import com.example.common.dto.response.SuccessResponse;
 import com.example.timesheet.common.Constant;
-import com.example.timesheet.dto.salary.AddSalaryForUser;
-import com.example.timesheet.dto.salary.GetAllSalary;
-import com.example.timesheet.dto.salary.GetByUser;
-import com.example.timesheet.dto.salary.UpdateSalaryForUser;
+import com.example.timesheet.dto.salary.*;
 import com.example.timesheet.dto.timesheet.AddTypeTimeSheet;
 import com.example.timesheet.dto.user.LoadUserNameForAddSalary;
 import com.example.timesheet.entity.Salary;
@@ -35,10 +32,18 @@ public class SalaryCtrl {
     public List<LoadUserNameForAddSalary> getByUsername(){
         return salaryService.getByUsername();
     }
+
     @GetMapping("getbyuser/{id}")
     public GetByUser getByUserId(@PathVariable(value = "id") String id){
         return salaryService.getByUser(id);
     }
+
+    @GetMapping("getbyusername/{username}")
+    public List<FindBonusForUsername> getByUsernameFind(@PathVariable(value = "username") String username){
+        return salaryService.getByUsernameFind(username);
+    }
+
+
     @PostMapping("new")
     @ResponseBody
     public InsertSuccessResponse newSalary(@Valid @RequestBody AddSalaryForUser addSalaryForUser) {

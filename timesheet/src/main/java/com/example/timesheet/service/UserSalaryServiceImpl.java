@@ -40,13 +40,20 @@ public class UserSalaryServiceImpl implements UserSalaryService{
     public List<GetAllUserSalary> getAll(String timeGet) {
         try {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+//            if(timeGet == null){
+//                Date date = formatter.parse(timeGet);
+//                String mounth = String.valueOf(date.getMonth());
+//            }
+
             Date date = formatter.parse(timeGet);
             String mounth = String.valueOf(date.getMonth());
             System.out.println(mounth);
+
             List<UserSalary> userSalaryList = userSalaryRepo.getSalaryDay(date);
-            if (userSalaryList.size() == 0) {
-                throw new NotFoundException("common.error.not-found");
-            } else {
+//            if (userSalaryList.size() == 0) {
+//                throw new NotFoundException("common.error.not-found");
+//            } else {
                 List<GetAllUserSalary> getAllUserSalaries = new ArrayList<>();
                 userSalaryList.forEach(userSalary -> {
                     GetAllUserSalary allUserSalary = new GetAllUserSalary();
@@ -60,7 +67,7 @@ public class UserSalaryServiceImpl implements UserSalaryService{
                     getAllUserSalaries.add(allUserSalary);
                 });
                 return getAllUserSalaries;
-            }
+//            }
             }catch(Exception e){
                 throw new RuntimeException(e);
         }

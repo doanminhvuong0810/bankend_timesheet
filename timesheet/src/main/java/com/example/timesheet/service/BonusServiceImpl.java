@@ -140,7 +140,12 @@ public class BonusServiceImpl implements BonusService {
                     System.out.println(totalB);
                     userSalary.setSalaryDay(0.0);
                     this.amountOneDay(salaryRepo.findByUserId(userId).getSalary());
-                    userSalary.setTotal(userSalary.getTotal() + totalB - salaryDayInMonth);
+                        if (date.getDay() == 0 || date.getDay() == 6) {
+                            userSalary.setTotal(userSalary.getTotal() + totalB - salaryDayInMonth);
+                        }
+                        else {
+                            userSalary.setTotal(userSalary.getTotal() + totalB);
+                        }
                     userSalaryRepo.save(userSalary);
                     PropertyUtils.copyProperties(b, newBonus);
                     TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
@@ -245,7 +250,6 @@ public class BonusServiceImpl implements BonusService {
     @Override
     public List<GetAllBonus> getAll(String timeGet) {
         try {
-
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(timeGet);
 //            String date1 = String.valueOf(date);
@@ -258,7 +262,7 @@ public class BonusServiceImpl implements BonusService {
                 getAllBonus.setId(bonus.getId());
                 getAllBonus.setTypeTimeSheet(timeSheetRepo.findTimeSheetById(bonus.getTimeSheetID()).getTypeTimeSheet());
                 getAllBonus.setUserId(bonus.getUserId());
-                getAllBonus.setDate(bonus.getDate());
+                getAllBonus.setDate(timeGet);
                 getAllBonus.setUserName(userRepo.findByIdGetDL(bonus.getUserId()).getName());
                 if(bonus.getOtHours() == null){
                     getAllBonus.setOtHours(0);
