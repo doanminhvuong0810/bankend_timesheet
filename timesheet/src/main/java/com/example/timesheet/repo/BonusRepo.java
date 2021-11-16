@@ -20,5 +20,4 @@ public interface BonusRepo extends JpaRepository<Bonus, String>, JpaSpecificatio
     List<Bonus> findByTimeSheetByUserIdAAndDate(String userID, Date date);
 
     List<Bonus> findByDate(Date date);
-
 }

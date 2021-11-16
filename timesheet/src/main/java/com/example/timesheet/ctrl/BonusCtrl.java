@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RestControllerAdvice
 @CrossOrigin
 @RequestMapping("/api/v1/timesheet/bonus")
 public class BonusCtrl {
