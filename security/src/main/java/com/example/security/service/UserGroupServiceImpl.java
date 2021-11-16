@@ -1,6 +1,7 @@
 package com.example.security.service;
 
 import com.example.security.dto.groupuser.AddMemberToGroup;
+import com.example.security.dto.groupuser.ListMemberinGroup;
 import com.example.security.entity.UserGroupRel;
 import com.example.security.repo.UserGroupRelRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,13 +49,24 @@ public class UserGroupServiceImpl implements UserGroupService {
         }
     }
 
-//    @Override
-//    public Optional<ListMemberinGroup> getlistMemberinGroup̣̣̣̣̣̣(String idGroup, ListMemberinGroup listMemberinGroup) {
-//        try {
-//            Optional<ListMemberinGroup> group = userGroupRelRepo.
-//            Optional<UserGroupRel> userGroupRel = userGroupRelRepo.findById(getlistMemberinGroup̣̣̣̣̣̣().getId());
-//        } catch (Exception e){
-//        throw new RuntimeException(e);
-//    }
-//    }
+    @Override
+    public List<ListMemberinGroup> getlistMemberinGroup̣̣̣̣̣̣(String groupId) {
+        try {
+
+            List<UserGroupRel> userGroupRel = userGroupRelRepo.allMemberinGroupbyId(groupId);
+            List<ListMemberinGroup> listMemberinGroups = new ArrayList<>();
+            userGroupRel.forEach(gr -> {
+                ListMemberinGroup listMG = new ListMemberinGroup();
+                listMG.setGroupId(gr.getGroupId());
+                listMG.setGroupName(gr.getGroup().getName());
+                listMG.setUserId(gr.getUserId());
+                listMG.setUserName(gr.getUser().getName());
+                listMemberinGroups.add(listMG);
+            });
+
+            return listMemberinGroups;
+        } catch (Exception e){
+        throw new RuntimeException(e);
+    }
+    }
 }

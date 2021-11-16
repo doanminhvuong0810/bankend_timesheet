@@ -7,6 +7,7 @@ import com.example.security.dto.group.CreateGroupRequest;
 import com.example.security.dto.group.GetAllGroups;
 import com.example.security.dto.group.UpdateGroupRequest;
 import com.example.security.dto.groupuser.AddMemberToGroup;
+import com.example.security.dto.groupuser.ListMemberinGroup;
 import com.example.security.entity.Group;
 import com.example.security.entity.UserGroupRel;
 import com.example.security.repo.UserGroupRelRepo;
@@ -67,10 +68,10 @@ public class GroupMgtCtrl {
 	}
 
 	//manager
-    @GetMapping("allmember/name/get")
+    @GetMapping("allmember/get/{id}")
     @ResponseBody
-    public List<UserGroupRel> getallmember(String groupName) throws NotFoundException {
-        return userGroupRelRepo.allMemberinGroupbyId(groupName);
+    public List<ListMemberinGroup> getallmember(@PathVariable("id") String groupId) throws NotFoundException {
+        return userGroupService.getlistMemberinGroup̣̣̣̣̣̣(groupId);
     }
 
     @PostMapping("addmember")
