@@ -63,6 +63,11 @@ public class Bonus extends EntityBase implements Comparable<Bonus>{
     @Column(nullable = true, name="date")
     private Date date;
 
+
+    @Nullable
+    @Column(nullable = true, name="isDelete")
+    private Boolean isDelete;
+
     @NotNull
     @Column(nullable = false, name="totalBonus")
     private Double totalBonus;
@@ -76,7 +81,8 @@ public class Bonus extends EntityBase implements Comparable<Bonus>{
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
     private String userSalaryId;
 
-    @Column(name = "note")
+    @Nullable
+    @Column(nullable = true, name="note")
     private String note;
 
     @JsonIgnore

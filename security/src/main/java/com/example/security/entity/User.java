@@ -107,11 +107,11 @@ public class User extends EntityBase {
   @JsonIgnore
   private String fullTextSearch;
 
-  @Column(name = "bank_name")
+  @Column(name = "bankname")
   private String bankName;
 
-  @Column(name = "account_number")
-  private String accountNumber;
+  @Column(name = "banknumber")
+  private String bankNumber;
 
   @Column(name = "birth_day")
   private Date birthDay;
@@ -119,6 +119,23 @@ public class User extends EntityBase {
   @Column(name = "staff_id")
   private String StaffID;
 
+  @Nullable
+  @Column(name = "phone")
+  private String phone;
+
+  @Nullable
+  @Column(name = "email")
+  private String email;
+
+
+  @Nullable
+  @Column(nullable = true, name="note")
+  private String note;
+
+
+  @Nullable
+  @Column(nullable = true, name="isDelete")
+  private Boolean isDelete;
 
   
   @OneToMany(mappedBy = "user")

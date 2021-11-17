@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.micrometer.core.lang.Nullable;
 import org.eclipse.persistence.annotations.Multitenant;
 import org.eclipse.persistence.annotations.MultitenantType;
 import org.eclipse.persistence.annotations.TenantDiscriminatorColumn;
@@ -57,4 +58,9 @@ public class UserGroupRel extends EntityBase {
   @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
   @Column(name = "tenant_id", nullable = false, length = Constants.ID_MAX_LENGTH, insertable = false, updatable = false)
   private String tenantId;
+
+  @Nullable
+  @Column(nullable = true, name="note")
+  private String note;
+
 }

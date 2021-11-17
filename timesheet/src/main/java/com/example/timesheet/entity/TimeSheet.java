@@ -58,4 +58,12 @@ public class TimeSheet extends EntityBase  {
     @Nullable
     @OneToMany(mappedBy = "timeSheet")
     List<Bonus> bonus;
+
+    @Nullable
+    @Column(nullable = true, name="isDelete")
+    private Boolean isDelete;
+
+    @Nullable
+    @Column(nullable = true, name="note")
+    private String note;
 }

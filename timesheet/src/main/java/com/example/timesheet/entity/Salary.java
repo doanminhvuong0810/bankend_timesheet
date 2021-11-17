@@ -50,6 +50,14 @@ public class Salary extends EntityBase {
     @Column(name = "tenant_id", nullable = true, length = Constants.ID_MAX_LENGTH, insertable = false, updatable = false)
     private String tenantId;
 
+    @Nullable
+    @Column(nullable = true, name="isDelete")
+    private Boolean isDelete;
+
+    @Nullable
+    @Column(nullable = true, name="note")
+    private String note;
+
     @OneToMany(mappedBy = "salary")
     @Nullable
     private List<UserSalary> userSalaries;

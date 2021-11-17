@@ -50,4 +50,7 @@ public class UserSalary extends EntityBase {
     @Column(nullable = false, name="date")
     private Date date;
 
+    @Nullable
+    @Column(nullable = true, name="note")
+    private String note;
 }
