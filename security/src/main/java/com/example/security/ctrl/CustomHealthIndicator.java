@@ -22,7 +22,7 @@ public class CustomHealthIndicator implements HealthIndicator{
   @Override
   public Health health() {
     try {
-      URL siteURL = new URL("http://localhost:9010/api/v1/guest/listusser");
+      URL siteURL = new URL("http://localhost:9010/api/v2/guest/users/listuser");
       HttpURLConnection connection = (HttpURLConnection)siteURL.openConnection();
       connection.setRequestMethod("GET");
       connection.connect();
