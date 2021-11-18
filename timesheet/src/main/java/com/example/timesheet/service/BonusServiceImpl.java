@@ -28,10 +28,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -134,18 +131,18 @@ public class BonusServiceImpl implements BonusService {
                         totalB = 0.0;
                     } else {
                         for (int i = 0; i < bonus1.size(); i++) {
-                            totalB += bonus1.get(i).getTotalBonus();
+                            totalB += bonus1.get(i).getMoneyBonus();
                         }
                     }
                     System.out.println(totalB);
                     userSalary.setSalaryDay(0.0);
                     this.amountOneDay(salaryRepo.findByUserId(userId).getSalary());
-                        if (date.getDay() == 0 || date.getDay() == 6) {
-                            userSalary.setTotal(userSalary.getTotal() + totalB - salaryDayInMonth);
-                        }
-                        else {
-                            userSalary.setTotal(userSalary.getTotal() + totalB);
-                        }
+                    if (date.getDay() == 0 || date.getDay() == 6) {
+                        userSalary.setTotal(userSalary.getTotal() + totalB - salaryDayInMonth);
+                    }
+                    else {
+                        userSalary.setTotal(userSalary.getTotal() + totalB);
+                    }
                     userSalaryRepo.save(userSalary);
                     PropertyUtils.copyProperties(b, newBonus);
                     TimeSheet timeSheet = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet());
@@ -166,7 +163,7 @@ public class BonusServiceImpl implements BonusService {
                         totalB = 0.0;
                     } else {
                         for (int i = 0; i < bonus1.size(); i++) {
-                            totalB += bonus1.get(i).getTotalBonus();
+                            totalB += bonus1.get(i).getMoneyBonus();
                         }
                     }
                     Double tolalBonuss = newBonus.getMoneyBonus() + totalB;
@@ -202,12 +199,13 @@ public class BonusServiceImpl implements BonusService {
                             totalB = 0.0;
                         } else {
                             for (int i = 0; i < bonus1.size(); i++) {
-                                totalB += bonus1.get(i).getTotalBonus();
+                                totalB += bonus1.get(i).getMoneyBonus();
                             }
                         }
                         System.out.println(salaryDayInMonth + "--" + totalB + "-- " + salaryBonus);
                         Double tolalBonuss = salaryBonus + totalB;
                         userSalary.setTotal(userSalary.getTotal() + tolalBonuss);
+                        newBonus.setMoneyBonus(salaryBonus);
                         b.setTotalBonus(tolalBonuss); // salaryBonus
                     } else if (salaryDay > 0) {
                         this.bonusCount(otHours, percent, salaryDay);
@@ -218,11 +216,12 @@ public class BonusServiceImpl implements BonusService {
                             totalB = 0.0;
                         } else {
                             for (int i = 0; i < bonus1.size(); i++) {
-                                totalB += bonus1.get(i).getTotalBonus();
+                                totalB += bonus1.get(i).getMoneyBonus();
                             }
                         }
                         Double tolalBonuss = salaryBonus + totalB;
                         userSalary.setTotal(userSalary.getTotal() + tolalBonuss);
+                        newBonus.setMoneyBonus(salaryBonus);
                         b.setTotalBonus(tolalBonuss); // salaryBonus
                     }
                     System.out.println(totalB);
@@ -257,6 +256,7 @@ public class BonusServiceImpl implements BonusService {
             List<Bonus> bonuses = new ArrayList<>();
             bonuses = bonusRepo.findByDate(date);
             List<GetAllBonus> getAllBonuses = new ArrayList<>();
+            Collections.sort(bonuses);
             bonuses.forEach(bonus -> {
                 GetAllBonus getAllBonus = new GetAllBonus();
                 getAllBonus.setId(bonus.getId());
@@ -324,19 +324,19 @@ public class BonusServiceImpl implements BonusService {
     public List<FindUserForNew> findForNew(String userName) {
         List<User> users = userRepo.findForNewBonus(userName);
         List<FindUserForNew> findUserForNews = new ArrayList<>();
-        if(users.size() == 0){
+//        if(users.size() == 0){
+//            FindUserForNew findUserForNew = new FindUserForNew();
+//            findUserForNew.setUserId("Không có dữ liệu");
+//            findUserForNew.setUserName("Không có dữ liệu");
+//            findUserForNews.add(findUserForNew);
+//        } else {
+        users.forEach(user -> {
             FindUserForNew findUserForNew = new FindUserForNew();
-            findUserForNew.setUserId("Không có dữ liệu");
-            findUserForNew.setUserName("Không có dữ liệu");
+            findUserForNew.setUserId(user.getId());
+            findUserForNew.setUserName(user.getName());
             findUserForNews.add(findUserForNew);
-        } else {
-            users.forEach(user -> {
-                FindUserForNew findUserForNew = new FindUserForNew();
-                findUserForNew.setUserId(user.getId());
-                findUserForNew.setUserName(user.getName());
-                findUserForNews.add(findUserForNew);
-            });
-        }
+        });
+//        }
         return  findUserForNews;
 
     }
