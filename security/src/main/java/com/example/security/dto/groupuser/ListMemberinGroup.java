@@ -7,6 +7,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class ListMemberinGroup {
+
+    private String id;
+
     @NotNull
     private String userId;
 

@@ -21,6 +21,9 @@ import com.example.security.enums.UserTypeEnum;
 public interface UserRepo extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
   Optional<User> findByName(String name);
   Optional<User> findByNameIgnoreCase(String name);
+
+  @Query("select u from User u where u.name=:name")
+  User findByUserName(String name);
   
   @Query("select u from User u where u.name=:name")
   User findByNameIgnoreCaseRegister(@Param("name") String name);

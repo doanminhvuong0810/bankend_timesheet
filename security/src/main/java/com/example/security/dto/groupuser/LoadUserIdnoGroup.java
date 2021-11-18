@@ -1,26 +1,21 @@
 package com.example.security.dto.groupuser;
 
-import com.example.common.config.Constants;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class AddMemberToGroup {
+public class LoadUserIdnoGroup {
 
     @NotNull
-    @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
     private String userId;
 
     private String userName;
 
     @NotNull
-    @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
     private String groupId;
 
     private String groupName;
-
 }

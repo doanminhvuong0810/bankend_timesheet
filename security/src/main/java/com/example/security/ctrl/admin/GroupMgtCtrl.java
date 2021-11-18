@@ -8,6 +8,7 @@ import com.example.security.dto.group.GetAllGroups;
 import com.example.security.dto.group.UpdateGroupRequest;
 import com.example.security.dto.groupuser.AddMemberToGroup;
 import com.example.security.dto.groupuser.ListMemberinGroup;
+import com.example.security.dto.groupuser.LoadUserIdnoGroup;
 import com.example.security.entity.Group;
 import com.example.security.entity.UserGroupRel;
 import com.example.security.repo.UserGroupRelRepo;
@@ -67,6 +68,11 @@ public class GroupMgtCtrl {
 		return groupService.findById(id);
 	}
 
+    @GetMapping("getuserid")
+    public List<LoadUserIdnoGroup> getByUserId(){
+        return userGroupService.loadUserIdnoGroups();
+    }
+
 	//manager
     @GetMapping("allmember/get/{id}")
     @ResponseBody
@@ -81,7 +87,7 @@ public class GroupMgtCtrl {
         return new InsertSuccessResponse(ugr.getId());
     }
 
-    @PutMapping("removemember/{id}")
+    @DeleteMapping("removemember/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SuccessResponse removeMemberinGroup(@PathVariable("id") String id) throws SQLException{
        userGroupService.removemember(id);

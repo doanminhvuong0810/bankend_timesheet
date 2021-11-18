@@ -44,6 +44,13 @@ public class UsersMgtCtrl {
     return userRepo.findByNameIgnoreCase(name);
 //        throw new NotImplementedException();
     }
+
+//    @GetMapping("/findbyname")
+//    @ResponseBody
+//    public User findbyUsername( String userName) {
+//        return userRepo.findByUserName(userName);
+//    }
+
     @PostMapping("/register")
     @ResponseBody
     public SuccessResponse register(@Valid @RequestBody RegisterUserRequest request) {

@@ -1,6 +1,7 @@
 package com.example.security.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -105,6 +106,20 @@ public class User extends EntityBase {
   @Size(max = FULL_TEXT_SEARCH_MAX_LENGTH)
   @JsonIgnore
   private String fullTextSearch;
+
+  @Column(name = "bank_name")
+  private String bankName;
+
+  @Column(name = "account_number")
+  private int accountNumber;
+
+  @Column(name = "birth_day")
+  private Date birthDay;
+
+  @Column(name = "staff_id")
+  private String StaffID;
+
+
   
   @OneToMany(mappedBy = "user")
   @Nullable

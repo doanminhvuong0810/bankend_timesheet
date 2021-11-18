@@ -78,6 +78,9 @@ public class Bonus extends EntityBase {
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
     private String userSalaryId;
 
+    @Column(name = "note")
+    private String note;
+
     @JsonIgnore
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH }, targetEntity = UserSalary.class, fetch = FetchType.LAZY)
