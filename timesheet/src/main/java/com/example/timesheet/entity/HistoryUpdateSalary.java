@@ -1,4 +1,5 @@
-package com.example.security.entity;
+package com.example.timesheet.entity;
+
 
 import com.example.common.config.Constants;
 import com.example.common.entity.EntityBase;
@@ -23,10 +24,10 @@ import java.util.Date;
 @Entity(name = "HistoryUpdateGroup")
 @Multitenant(MultitenantType.SINGLE_TABLE)
 @TenantDiscriminatorColumn(name = Constants.TENANT_ID_COLUMN, contextProperty = Constants.TENANT_ID_PROP, length = Constants.ID_MAX_LENGTH)
-@Table(name = "security_historyupdategroup",indexes = {
+@Table(name = "security_historysalary",indexes = {
         @Index(name = "idx_security_date", columnList = "date", unique = false) })
 @ToString(includeFieldNames = true, callSuper = true)
-public class HistoryUpdateGroup extends EntityBase {
+public class HistoryUpdateSalary extends EntityBase {
 
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
     @Column(name = "tenant_id", nullable = false, length = Constants.ID_MAX_LENGTH, insertable = false, updatable = false)
@@ -45,15 +46,15 @@ public class HistoryUpdateGroup extends EntityBase {
     private String changeby;
 
     @NotNull
-    @Column(name = "group_id", nullable = false, length = Constants.ID_MAX_LENGTH)
+    @Column(name = "salaryId", nullable = false, length = Constants.ID_MAX_LENGTH)
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
-    private String groupId;
+    private String salaryId;
 
     @JsonIgnore
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH }, targetEntity = Group.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id", insertable = false, updatable = false, referencedColumnName = "id")
-    private Group group;
+            CascadeType.REFRESH }, targetEntity = Salary.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "salaryId", insertable = false, updatable = false, referencedColumnName = "id")
+    private Salary salary;
 
     @NotNull
     @Column(name = "user_id", nullable = false, length = Constants.ID_MAX_LENGTH)

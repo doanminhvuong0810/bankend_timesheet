@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.micrometer.core.lang.Nullable;
 import org.eclipse.persistence.annotations.Multitenant;
 import org.eclipse.persistence.annotations.MultitenantType;
 import org.eclipse.persistence.annotations.TenantDiscriminatorColumn;
@@ -55,7 +56,15 @@ public class Role extends EntityBase  {
       @Column(name = "fulltext_search", length = FULL_TEXT_SEARCH_MAX_LENGTH)
       @Size(max = FULL_TEXT_SEARCH_MAX_LENGTH)
       private String fullTextSearch;
-      
+
+    @Nullable
+    @Column(nullable = true, name="isDelete")
+    private Boolean isDelete;
+
+    @Nullable
+    @Column(nullable = true, name="note")
+    private String note;
+
       @OneToMany(mappedBy = "role")
       List<UserRoleRel> userRoleRels;
 }

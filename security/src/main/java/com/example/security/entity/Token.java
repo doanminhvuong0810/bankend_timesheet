@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.micrometer.core.lang.Nullable;
 import org.eclipse.persistence.annotations.Multitenant;
 import org.eclipse.persistence.annotations.MultitenantType;
 import org.eclipse.persistence.annotations.TenantDiscriminatorColumn;
@@ -61,6 +62,10 @@ public class Token extends EntityBase {
   @Column(name = "user_id", nullable = false, length = Constants.ID_MAX_LENGTH)
   @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
   private String userId;
+
+  @Nullable
+  @Column(nullable = true, name="isDelete")
+  private Boolean isDelete;
 
   @JsonIgnore
   @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST,

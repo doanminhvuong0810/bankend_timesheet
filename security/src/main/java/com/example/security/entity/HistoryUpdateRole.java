@@ -1,4 +1,4 @@
 package com.example.security.entity;
 
-public class HistoryUpdateUserRole {
+public class HistoryUpdateRole {
 }

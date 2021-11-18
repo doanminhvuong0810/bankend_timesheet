@@ -1,4 +1,4 @@
 package com.example.timesheet.entity;
 
-public class HistorySalary {
+public class HistoryUpdateBonus {
 }
