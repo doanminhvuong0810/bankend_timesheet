@@ -70,6 +70,7 @@ public class UserGroupServiceImpl implements UserGroupService {
                 listMG.setGroupName(gr.getGroup().getName());
                 listMG.setUserId(gr.getUserId());
                 listMG.setUserName(gr.getUser().getName());
+                listMG.setStaffID(gr.getUser().getStaffID());
                 listMemberinGroups.add(listMG);
             });
 

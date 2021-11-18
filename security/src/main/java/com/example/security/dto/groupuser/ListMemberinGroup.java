@@ -15,6 +15,8 @@ public class ListMemberinGroup {
 
     private String userName;
 
+    private String staffID;
+
     @NotNull
     private String groupId;
 

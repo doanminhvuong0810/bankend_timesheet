@@ -111,7 +111,7 @@ public class User extends EntityBase {
   private String bankName;
 
   @Column(name = "account_number")
-  private int accountNumber;
+  private String accountNumber;
 
   @Column(name = "birth_day")
   private Date birthDay;
