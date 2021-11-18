@@ -14,10 +14,8 @@ import org.eclipse.persistence.annotations.TenantDiscriminatorColumn;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,7 +26,7 @@ import java.util.List;
 @Table(name = "timesheet_bonus", indexes = {
         @Index(name = "idx_TimeSheetBonus_userid", columnList = "userid", unique = false) })
 @ToString(includeFieldNames = true, callSuper = true)
-public class Bonus extends EntityBase {
+public class Bonus extends EntityBase implements Comparable<Bonus>{
 
     @NotNull
     @Column(name = "user_id", nullable = false, length = Constants.ID_MAX_LENGTH)
@@ -87,4 +85,8 @@ public class Bonus extends EntityBase {
     @JoinColumn(name = "userSalaryId", insertable = false, updatable = false, referencedColumnName = "id")
     private UserSalary userSalary;
 
+    @Override
+    public int compareTo(Bonus o) {
+        return this.getCreatedDate().compareTo(o.getCreatedDate());
+    }
 }
