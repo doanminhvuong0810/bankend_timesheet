@@ -77,6 +77,12 @@ public class UserServiceImpl implements UserService {
           allUsers.setName(u.getName());
           allUsers.setDisplayName(u.getDisplayName());
           allUsers.setPassword(u.getPassword());
+          allUsers.setStaffID(u.getStaffID());
+          allUsers.setBirthDay(u.getBirthDay());
+          allUsers.setPhone(u.getPhone());
+          allUsers.setBankName(u.getBankName());
+          allUsers.setBankNumber(u.getBankNumber());
+          allUsers.setEmail(u.getEmail());
           allUsers.setFailLoginCount(u.getFailLoginCount());
           allUsers.setLock(u.isLock());
           allUsers.setAffectDate(u.getAffectDate());
@@ -247,7 +253,9 @@ public class UserServiceImpl implements UserService {
         throw new DuplicateKeyException("common.error.dupplicate");
       }
       User u = new User();
+      System.out.println("đmmm"+request);
       PropertyUtils.copyProperties(u, request);
+      u.setStaffID(request.getStaffID());
       u.setActive(true);
       u.setAffectDate(LocalDateTime.now());
       u.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -256,7 +264,7 @@ public class UserServiceImpl implements UserService {
       System.out.println("danh sach adbdsadkuadqa : "+ u.getId());
       UserRoleRel userRoleRel = new UserRoleRel();
       userRoleRel.setUserId(u.getId());
-       userRoleRel.setRoleId(roleRepo.findRoleByName("ROLE_ADMIN").getId());
+      userRoleRel.setRoleId(roleRepo.findRoleByName("ROLE_ADMIN").getId());
 
        //thêm vào ldap
       this.newConnection();

@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -24,6 +25,16 @@ public class GetAllSalary {
 
     @NotNull
     private String userName;
+
+    private String displayName;
+
+    private String StaffID;
+
+    private String bankName;
+
+    private String bankNumber;
+
+    private Date birthDay;
 
     @NotNull
     private Double salary;

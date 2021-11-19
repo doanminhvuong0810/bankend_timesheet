@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-public class GetByUser {
+public class FindBonusFordisplayName {
     @NotNull
     private String id;
 

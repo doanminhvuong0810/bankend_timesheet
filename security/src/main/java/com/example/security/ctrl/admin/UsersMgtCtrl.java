@@ -53,7 +53,7 @@ public class UsersMgtCtrl {
 
     @PostMapping("/register")
     @ResponseBody
-    public SuccessResponse register(@Valid @RequestBody RegisterUserRequest request) {
+    public SuccessResponse register( @RequestBody RegisterUserRequest request) {
         userService.register(request);
         return new SuccessResponse();
     }
