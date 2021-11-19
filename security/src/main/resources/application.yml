@@ -20,9 +20,9 @@ spring:
 #    url: jdbc:mysql://timesheet.clgsfbgvscxg.us-east-2.rds.amazonaws.com/timesheet
 #    username: admin
 #    password: 88888888
-    url: jdbc:mysql://103.75.187.106:3306/testconnect
+    url: jdbc:mysql://192.168.1.189:3306/timesheet
     username: manh
-    password: 123456
+    password: Manhpd@123456
 #    url: jdbc:mysql://testsecurity.clgsfbgvscxg.us-east-2.rds.amazonaws.com:3306/testconnect
 #    username: admin
 #    password: 12345678

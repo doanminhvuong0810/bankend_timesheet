@@ -44,6 +44,10 @@ public class HistoryUpdateGroup extends EntityBase {
     @Column(nullable = true, name="changeby")
     private String changeby;
 
+    @Nullable
+    @Column(nullable = true, name="note")
+    private String note;
+
     @NotNull
     @Column(name = "group_id", nullable = false, length = Constants.ID_MAX_LENGTH)
     @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
@@ -55,15 +59,5 @@ public class HistoryUpdateGroup extends EntityBase {
     @JoinColumn(name = "group_id", insertable = false, updatable = false, referencedColumnName = "id")
     private Group group;
 
-    @NotNull
-    @Column(name = "user_id", nullable = false, length = Constants.ID_MAX_LENGTH)
-    @Size(max = Constants.ID_MAX_LENGTH, min = Constants.ID_MAX_LENGTH)
-    private String userId;
-
-    @JsonIgnore
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH }, targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false, referencedColumnName = "id")
-    private User user;
 
 }

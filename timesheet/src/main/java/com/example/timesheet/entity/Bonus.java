@@ -92,7 +92,16 @@ public class Bonus extends EntityBase implements Comparable<Bonus>{
     private UserSalary userSalary;
 
     @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+
+
+    @Override
     public int compareTo(Bonus o) {
+
+
         return this.getCreatedDate().compareTo(o.getCreatedDate());
     }
 }

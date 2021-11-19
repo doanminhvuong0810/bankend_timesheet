@@ -256,7 +256,7 @@ public class BonusServiceImpl implements BonusService {
             List<Bonus> bonuses = new ArrayList<>();
             bonuses = bonusRepo.findByDate(date);
             List<GetAllBonus> getAllBonuses = new ArrayList<>();
-            Collections.sort(bonuses);
+            Collections.reverse(bonuses);
             bonuses.forEach(bonus -> {
                 GetAllBonus getAllBonus = new GetAllBonus();
                 getAllBonus.setId(bonus.getId());

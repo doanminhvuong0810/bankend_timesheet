@@ -26,7 +26,7 @@ public interface GroupService {
 
 	Group updateSomeFields(String id, @Valid PatchRequest<UpdateGroupRequest> patchRequest);
 
-	void deleteById(String id);
+	Group deleteById(String id);
 
 	int deleteByIdIn(List<String> ids);
 
