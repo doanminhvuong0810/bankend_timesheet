@@ -11,9 +11,16 @@ import java.util.List;
 
 public interface SalaryService {
     Salary createSalaryForUser(AddSalaryForUser addSalaryForUser);
+
     Salary updateSalaryForUser(UpdateSalaryForUser updateSalaryForUser);
+
     List<GetAllSalary> getAll();
+
     GetByUser getByUser(String id);
+
     List<LoadUserNameForAddSalary> getByUsername();
-    List<FindBonusForUsername> getByUsernameFind( String username);
+
+    List<FindBonusForUsername> getByUsernameFind(String username);
+
+    List<FindBonusFordisplayName> getByDisplayNameFind(String displayname);
 }

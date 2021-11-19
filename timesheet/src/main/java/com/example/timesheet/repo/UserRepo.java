@@ -23,4 +23,7 @@ public interface UserRepo extends JpaRepository<User, String>, JpaSpecificationE
     @Query("select u from UserTimesheet u where u.name like %:userName%")
     List<User> findForNewBonus(@Param("userName") String userName);
 
+    @Query("select u from UserTimesheet u where u.displayName like %:displayName%")
+    List<User> findDSForNewBonus(@Param("displayName") String displayName);
+
 }

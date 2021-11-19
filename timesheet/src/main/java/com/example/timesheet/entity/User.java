@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -32,6 +33,18 @@ public class User extends EntityBase {
     @NotNull
     @Column(name = "display_name")
     private String displayName;
+
+    @Column(name = "bankname")
+    private String bankName;
+
+    @Column(name = "banknumber")
+    private String bankNumber;
+
+    @Column(name = "birth_day")
+    private Date birthDay;
+
+    @Column(name = "staff_id")
+    private String StaffID;
 
     @OneToMany(mappedBy = "user")
     @Nullable

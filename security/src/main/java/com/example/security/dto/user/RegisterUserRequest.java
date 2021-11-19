@@ -1,7 +1,9 @@
 package com.example.security.dto.user;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -36,6 +38,21 @@ public class RegisterUserRequest {
   @NotNull
   @Pattern(regexp = Constants.PATTERN_PASSWORD)
   private String confirmPassword;
+
+  @NotNull
+  private String bankName;
+
+  @NotNull
+  private String bankNumber;
+
+  @NotNull
+  private Date birthDay;
+
+  @NotNull
+  private String staffID;
+
+  @Nullable
+  private String phone;
   
   @Email
   private String email;

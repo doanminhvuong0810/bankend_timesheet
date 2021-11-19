@@ -117,7 +117,7 @@ public class User extends EntityBase {
   private Date birthDay;
 
   @Column(name = "staff_id")
-  private String StaffID;
+  private String staffID;
 
   @Nullable
   @Column(name = "phone")

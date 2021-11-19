@@ -43,6 +43,10 @@ public class SalaryCtrl {
         return salaryService.getByUsernameFind(username);
     }
 
+    @GetMapping("getbydisplayname/{displayname}")
+    public List<FindBonusFordisplayName> getByDisplayNameFind(@PathVariable(value = "displayname") String displayname){
+        return salaryService.getByDisplayNameFind(displayname);
+    }
 
     @PostMapping("new")
     @ResponseBody
