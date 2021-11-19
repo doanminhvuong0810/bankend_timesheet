@@ -57,7 +57,7 @@ public class GroupMgtCtrl {
         return new SuccessResponse();
     }
 
-    @DeleteMapping("delete")
+    @PutMapping("delete")
     @ResponseStatus(HttpStatus.OK)
     public SuccessResponse deleteByIdIn(@RequestBody List<String> ids) throws SQLException {
         groupService.deleteByIdIn(ids);
@@ -94,4 +94,9 @@ public class GroupMgtCtrl {
         return new SuccessResponse();
     }
 
+    @PutMapping("deletebyid/{id}")
+    public Group deletebyid(@PathVariable String id){
+        groupService.deleteById(id);
+        return null;
+    }
 }

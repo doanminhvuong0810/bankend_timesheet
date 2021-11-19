@@ -1,19 +1,25 @@
 package com.example.security.service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import com.example.security.dto.group.*;
+import com.example.security.dto.history.HistoryGroupCreate;
+import com.example.security.entity.HistoryUpdateGroup;
 import com.example.security.entity.User;
 import com.example.security.entity.UserGroupRel;
+import com.example.security.repo.HistoryGroupRepo;
 import com.example.security.repo.UserGroupRelRepo;
 import com.example.security.repo.UserRepo;
-import org.apache.commons.beanutils.BeanUtils;
+import lombok.SneakyThrows;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
@@ -39,6 +45,8 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     private GroupRepo groupRepo;
 
+    @Autowired
+    HistoryGroupRepo historyGroupRepo;
     @Override
     public List<GetAllGroups> getAllGroups() {
         try {
@@ -73,7 +81,18 @@ public class GroupServiceImpl implements GroupService {
                 Group g = new Group();
                 PropertyUtils.copyProperties(g, group);
                 g.setFullTextSearch(g.getName());
-                return groupRepo.save(g);
+                g =  groupRepo.save(g);
+
+                HistoryUpdateGroup historyUpdateGroup = new HistoryUpdateGroup();
+                HistoryGroupCreate historyGroupCreate = new HistoryGroupCreate();
+                historyGroupCreate.setDate(new Date());
+                historyGroupCreate.setGroupId(g.getId());
+                historyGroupCreate.setChangeby("SYSTEM");
+                historyGroupCreate.setMethos("Create");
+
+
+
+                return g;
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
@@ -140,13 +159,59 @@ public class GroupServiceImpl implements GroupService {
         }
     }
 
+    @SneakyThrows
     @Override
-    public void deleteById(String id) {
+    public Group deleteById(String id) {
         Optional<Group> oGroup = groupRepo.findById(id);
+        Group group = new Group();
         if (!oGroup.isPresent()) {
+            HistoryUpdateGroup historyUpdateGroup = new HistoryUpdateGroup();
+            HistoryGroupCreate historyGroupCreate = new HistoryGroupCreate();
+            historyGroupCreate.setGroupId(id);
+            historyGroupCreate.setDate(new Date());
+            historyGroupCreate.setNote("Thực hiện xóa group: " + id + "thất bại");
+            historyGroupCreate.setMethos("Delete fail");
+            historyGroupCreate.setChangeby("system");
+            PropertyUtils.copyProperties(historyUpdateGroup, historyGroupCreate);
+            historyGroupRepo.save(historyUpdateGroup);
             throw new NotFoundException("common.error.not-found");
         } else {
-            groupRepo.deleteById(id);
+            try {
+                List<UserGroupRel> userGroupRel = userGroupRelRepo.findByGroupId(id);
+                if(userGroupRel.size() > 0){
+
+                    throw new NotFoundException("common.error.not-found");
+                }
+                oGroup.get().setIsDelete(true);
+                group = groupRepo.save(oGroup.get());
+
+                HistoryUpdateGroup historyUpdateGroup = new HistoryUpdateGroup();
+                HistoryGroupCreate historyGroupCreate = new HistoryGroupCreate();
+                if(group.getId() !=null) {
+                    historyGroupCreate.setGroupId(group.getId());
+                    historyGroupCreate.setDate(new Date());
+                    historyGroupCreate.setNote("Thực hiện xóa group: " + group.getId() + " thành công");
+                    historyGroupCreate.setMethos("Delete success");
+                    historyGroupCreate.setChangeby("system");
+                    PropertyUtils.copyProperties(historyUpdateGroup, historyGroupCreate);
+                    historyGroupRepo.save(historyUpdateGroup);
+                }
+                return group;
+
+            } catch (Exception e){
+                HistoryUpdateGroup historyUpdateGroup = new HistoryUpdateGroup();
+                HistoryGroupCreate historyGroupCreate = new HistoryGroupCreate();
+                    historyGroupCreate.setGroupId(id);
+                    historyGroupCreate.setDate(new Date());
+                    historyGroupCreate.setNote("Thực hiện xóa group: " + id + "thất bại");
+                    historyGroupCreate.setMethos("Delete fail");
+                    historyGroupCreate.setChangeby("system");
+                    PropertyUtils.copyProperties(historyUpdateGroup, historyGroupCreate);
+                    historyGroupRepo.save(historyUpdateGroup);
+                throw new RuntimeException(e);
+
+            }
+
         }
     }
 
