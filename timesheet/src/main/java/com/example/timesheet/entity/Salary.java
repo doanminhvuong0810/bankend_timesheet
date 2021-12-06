@@ -58,8 +58,12 @@ public class Salary extends EntityBase {
     @Column(nullable = true, name="note")
     private String note;
 
-    @OneToMany(mappedBy = "salary")
     @Nullable
-    private List<UserSalary> userSalaries;
+    @OneToMany(mappedBy = "salary")
+    List<TotalSalaryMonth> totalSalaryMonths;
+
+//    @Nullable
+//    @OneToMany(mappedBy = "salary")
+//    private List<UserSalary> userSalaries;
 
 }

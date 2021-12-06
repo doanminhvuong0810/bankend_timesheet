@@ -10,18 +10,14 @@ import com.example.timesheet.entity.User;
 import com.example.timesheet.entity.UserSalary;
 import com.example.timesheet.repo.*;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.webjars.NotFoundException;
-
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,7 +53,6 @@ public class BonusServiceImpl implements BonusService {
     public void bonusCount(Integer bonusHours, Integer percent, Double salaryDay) {
         if (percent > 0) {
             salaryBonus = (((salaryDay / 8) / 100) * percent) * bonusHours;
-            System.out.println(salaryBonus);
         } else {
             salaryBonus = 0.0;
         }
@@ -73,10 +68,10 @@ public class BonusServiceImpl implements BonusService {
                     && LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1).getDayOfWeek().getValue() != DayOfWeek.SUNDAY.getValue()) {
                 count++;
             }
-            System.out.println(sdf.format(Date.from(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1)
-                    .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())) + " "
-                    + LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1).getDayOfWeek().toString()
-                    + " i=" + String.valueOf(count));
+//            System.out.println(sdf.format(Date.from(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1)
+//                    .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())) + " "
+//                    + LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i + 1).getDayOfWeek().toString()
+//                    + " i=" + String.valueOf(count));
         }
         System.out.println("Số ngày làm việc trong tháng: " + String.valueOf(count));
         salaryDayInMonth = salary / count;
@@ -86,8 +81,6 @@ public class BonusServiceImpl implements BonusService {
     @Override
     public Bonus create(@Valid NewBonus newBonus) {
         try {
-//                String dateNew = String.valueOf();
-//                System.out.println(dateNew);
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             String dateNow = formatter.format(date);
@@ -121,12 +114,8 @@ public class BonusServiceImpl implements BonusService {
                 Bonus b = new Bonus();
                 if (newBonus.getTypeTimeSheet().equals("On Leave")) {
                     Double totalB = 0.0;
-                    List<Bonus> bonus1 = new ArrayList<>();
+                    List<Bonus> bonus1;
                     bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
-//                        bonus1.forEach(bonus2 -> {
-//                            totalB = totalB + bonus2.getTotalBonus();
-//                            return totalB;
-//                        });
                     if (bonus1.size() <= 0) {
                         totalB = 0.0;
                     } else {
@@ -139,8 +128,7 @@ public class BonusServiceImpl implements BonusService {
                     this.amountOneDay(salaryRepo.findByUserId(userId).getSalary());
                     if (date.getDay() == 0 || date.getDay() == 6) {
                         userSalary.setTotal(userSalary.getTotal() + totalB - salaryDayInMonth);
-                    }
-                    else {
+                    } else {
                         userSalary.setTotal(userSalary.getTotal() + totalB);
                     }
                     userSalaryRepo.save(userSalary);
@@ -154,10 +142,10 @@ public class BonusServiceImpl implements BonusService {
                     newBonus.setOtHours(0);
                     newBonus.setMoneyBonus(0.0);
                     return bonusRepo.save(b);
-                } else if (newBonus.getMoneyBonus() !=null &&newBonus.getMoneyBonus() >= 0 && newBonus.getOtHours() == null) {
+                } else if (newBonus.getMoneyBonus() != null && newBonus.getMoneyBonus() >= 0 && newBonus.getOtHours() == null) {
                     Double salaryDay = userSalary.getSalaryDay();
                     Double totalB = 0.0;
-                    List<Bonus> bonus1 = new ArrayList<>();
+                    List<Bonus> bonus1;
                     bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
                     if (bonus1.size() <= 0) {
                         totalB = 0.0;
@@ -169,7 +157,6 @@ public class BonusServiceImpl implements BonusService {
                     Double tolalBonuss = newBonus.getMoneyBonus() + totalB;
                     userSalary.setTotal(userSalary.getTotal() + tolalBonuss);
                     b.setTotalBonus(tolalBonuss);
-                    System.out.println(totalB);
                     userSalary.setSalaryDay(salaryDay);
                     userSalaryRepo.save(userSalary);
                     PropertyUtils.copyProperties(b, newBonus);
@@ -183,18 +170,13 @@ public class BonusServiceImpl implements BonusService {
                     Integer percent = timeSheetRepo.findOneBytypeTimeSheet(newBonus.getTypeTimeSheet()).getPercent();
                     System.out.println(percent);
                     Integer otHours = newBonus.getOtHours();
-//                    if (newBonus.getTypeTimeSheet().equals("Over Time")) {
                     Double totalB = 0.0;
                     b.setOtHours(otHours);
                     if (salaryDay == 0) {
                         this.amountOneDay(salaryRepo.findByUserId(userId).getSalary());
                         this.bonusCount(otHours, percent, salaryDayInMonth);
-                        List<Bonus> bonus1 = new ArrayList<>();
+                        List<Bonus> bonus1;
                         bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
-//                        bonus1.forEach(bonus2 -> {
-//                            totalB = totalB + bonus2.getTotalBonus();
-//                            return totalB;
-//                        });
                         if (bonus1.size() <= 0) {
                             totalB = 0.0;
                         } else {
@@ -209,8 +191,7 @@ public class BonusServiceImpl implements BonusService {
                         b.setTotalBonus(tolalBonuss); // salaryBonus
                     } else if (salaryDay > 0) {
                         this.bonusCount(otHours, percent, salaryDay);
-//
-                        List<Bonus> bonus1 = new ArrayList<>();
+                        List<Bonus> bonus1;
                         bonus1 = bonusRepo.findByTimeSheetByUserIdAAndDate(userId, date1);
                         if (bonus1.size() <= 0) {
                             totalB = 0.0;
@@ -234,9 +215,6 @@ public class BonusServiceImpl implements BonusService {
                     b.setUserSalaryId(userSalary.getId());
                     return bonusRepo.save(b);
                 }
-//                 else if(newBonus.getMoneyBonus() >= 0 && newBonus.getOtHours() >= 0){
-//                     throw new DuplicateKeyException("common.error.dupplicate");
-//                 }
                 else {
                     throw new DuplicateKeyException("common.error.dupplicate");
                 }
@@ -251,9 +229,8 @@ public class BonusServiceImpl implements BonusService {
         try {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(timeGet);
-//            String date1 = String.valueOf(date);
 
-            List<Bonus> bonuses = new ArrayList<>();
+            List<Bonus> bonuses;
             bonuses = bonusRepo.findByDate(date);
             List<GetAllBonus> getAllBonuses = new ArrayList<>();
             Collections.reverse(bonuses);
@@ -264,12 +241,12 @@ public class BonusServiceImpl implements BonusService {
                 getAllBonus.setUserId(bonus.getUserId());
                 getAllBonus.setDate(timeGet);
                 getAllBonus.setUserName(userRepo.findByIdGetDL(bonus.getUserId()).getName());
-                if(bonus.getOtHours() == null){
+                if (bonus.getOtHours() == null) {
                     getAllBonus.setOtHours(0);
                 } else {
                     getAllBonus.setOtHours(bonus.getOtHours());
                 }
-                if(bonus.getMoneyBonus() == null){
+                if (bonus.getMoneyBonus() == null) {
                     getAllBonus.setMoneyBonus(0.0);
                 } else {
                     getAllBonus.setMoneyBonus(bonus.getMoneyBonus());
@@ -291,7 +268,6 @@ public class BonusServiceImpl implements BonusService {
             if (optionalBonus.isPresent()) {
                 Bonus entityBonus = new Bonus();
                 BeanUtils.copyProperties(entityBonus, optionalBonus);
-//                entityBonus.setDeleted(false);
                 bonusRepo.save(entityBonus);
                 return entityBonus;
             } else {
@@ -324,20 +300,13 @@ public class BonusServiceImpl implements BonusService {
     public List<FindUserForNew> findForNew(String userName) {
         List<User> users = userRepo.findForNewBonus(userName);
         List<FindUserForNew> findUserForNews = new ArrayList<>();
-//        if(users.size() == 0){
-//            FindUserForNew findUserForNew = new FindUserForNew();
-//            findUserForNew.setUserId("Không có dữ liệu");
-//            findUserForNew.setUserName("Không có dữ liệu");
-//            findUserForNews.add(findUserForNew);
-//        } else {
         users.forEach(user -> {
             FindUserForNew findUserForNew = new FindUserForNew();
             findUserForNew.setUserId(user.getId());
             findUserForNew.setUserName(user.getName());
             findUserForNews.add(findUserForNew);
         });
-//        }
-        return  findUserForNews;
+        return findUserForNews;
 
     }
 }

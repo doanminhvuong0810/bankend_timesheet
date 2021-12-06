@@ -15,9 +15,14 @@ spring:
       password: admin
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.1.189:3306/timesheet
+    url: jdbc:mysql://103.75.187.106:3306/timesheet
     username: manh
-    password: Manhpd@123456
+    password: 123aA@321
+
+#    url: jdbc:mysql://192.168.1.189:3306/timesheet
+#    username: manh
+#    password: Manhpd@123456
+
 #    url: jdbc:mysql://kl1ng6arcppjvfqo:grwqltrxaa9cdsi9@r6ze0q02l4me77k3.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/obflkoj0x51r6z6x
 #    username: kl1ng6arcppjvfqo
 #    password: grwqltrxaa9cdsi9

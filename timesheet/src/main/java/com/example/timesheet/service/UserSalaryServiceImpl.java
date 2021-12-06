@@ -3,8 +3,10 @@ package com.example.timesheet.service;
 import com.example.timesheet.dto.UserSalary.GetAllUserSalary;
 import com.example.timesheet.dto.UserSalary.GetUserSalaryInMounth;
 import com.example.timesheet.entity.Salary;
+import com.example.timesheet.entity.TotalSalaryMonth;
 import com.example.timesheet.entity.UserSalary;
 import com.example.timesheet.repo.SalaryRepo;
+import com.example.timesheet.repo.TotalSalaryMonthRepo;
 import com.example.timesheet.repo.UserRepo;
 import com.example.timesheet.repo.UserSalaryRepo;
 import lombok.SneakyThrows;
@@ -35,6 +37,8 @@ public class UserSalaryServiceImpl implements UserSalaryService{
     @Autowired
     SalaryRepo salaryRepo;
 
+    @Autowired
+    TotalSalaryMonthRepo totalSalaryMonthRepo;
     @SneakyThrows
     @Override
     public List<GetAllUserSalary> getAll(String timeGet) {
@@ -58,8 +62,8 @@ public class UserSalaryServiceImpl implements UserSalaryService{
                 userSalaryList.forEach(userSalary -> {
                     GetAllUserSalary allUserSalary = new GetAllUserSalary();
                     allUserSalary.setId(userSalary.getId());
-                    allUserSalary.setUserName(userRepo.findByIdGetDL(salaryRepo
-                            .findByIdSalary(userSalary.getSalaryId()).getUserId()).getName());
+//                    allUserSalary.setUserName(userRepo.findByIdGetDL(salaryRepo
+//                            .findByIdSalary(totalSalaryMonthRepo.findOneById(userSalary.getSalaryMonthId()).getSalaryId()).getUserId()).getName());
                     allUserSalary.setDate(date);
                     allUserSalary.setSalaryDay(userSalary.getSalaryDay());
                     allUserSalary.setTotal(userSalary.getTotal());
@@ -93,8 +97,8 @@ public class UserSalaryServiceImpl implements UserSalaryService{
                     System.out.println(monthSql + "" + yearSql);
                     if(  monthSql.equals(month)  && yearSql.equals(year)) {
                         GetUserSalaryInMounth getUserSalaryInMounth = new GetUserSalaryInMounth();
-                        getUserSalaryInMounth.setUserName(userRepo.findByIdGetDL(salaryRepo
-                                .findByIdSalary(userSalary.getSalaryId()).getUserId()).getName());
+//                        getUserSalaryInMounth.setUserName(userRepo.findByIdGetDL(salaryRepo
+//                                .findByIdSalary(totalSalaryMonthRepo.findOneById(userSalary.getSalaryMonthId()).getSalaryId()).getUserId()).getName());
                         getUserSalaryInMounth.setMonth(String.valueOf(userSalary.getDate().getDate())+ "-"+ String.valueOf(monthSql) +"-"+String.valueOf(yearSql));
                         getUserSalaryInMounth.setSalaryDay(userSalary.getSalaryDay());
                         getUserSalaryInMounth.setId(userSalary.getId());

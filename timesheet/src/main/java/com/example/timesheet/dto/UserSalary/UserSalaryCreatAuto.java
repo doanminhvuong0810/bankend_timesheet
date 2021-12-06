@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class UserSalaryCreatAuto {
 
     @NotNull
-    private String salaryId;
+    private String salaryMonthId;
 
     @Nullable
     private String bonusId;

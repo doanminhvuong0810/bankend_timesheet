@@ -20,7 +20,7 @@ public interface UserSalaryRepo extends JpaRepository<UserSalary, String>, JpaSp
     @Query("select us from UserSalary us where us.date=:date")
     List<UserSalary> getSalaryDay(@Param("date") Date date);
 //
-   @Query("select us from UserSalary us where us.date=:date and us.salaryId=:salaryId")
+   @Query("select us from UserSalary us where us.date=:date and us.totalSalaryMonth.salaryId=:salaryId")
     UserSalary getUserSalaryByDateAndSalaryId(@Param("date") Date date, @Param("salaryId") String salaryId);
    //
 //    List<UserSalary> getUserSalaryBySalaryId(@Param("salaryId") String salaryId);
@@ -28,7 +28,7 @@ public interface UserSalaryRepo extends JpaRepository<UserSalary, String>, JpaSp
 
     //    @Query(nativeQuery = true, value="select * from timesheet_user_salary u where u.salaryId=:salaryId and MONTH(u.date)=:month")
     // and SubString(cast(u.date as text),1,4)=:month
-    @Query("select u from UserSalary u where u.salaryId=:salaryId")
+    @Query("select u from UserSalary u where u.totalSalaryMonth.salaryId=:salaryId")
     List<UserSalary> getSalaryUserBySalaryId(@Param("salaryId") String salaryId);//, @Param("month") Integer month);
 
 }
