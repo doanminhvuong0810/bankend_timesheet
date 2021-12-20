@@ -6,6 +6,7 @@
 		<groupId>com.example</groupId>
 		<artifactId>demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../demo project/pom.xml</relativePath>
 	</parent>
 	<artifactId>timesheet</artifactId>
 	<name>timesheet</name>

@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity(name = "UserTimesheet")
 @TenantDiscriminatorColumn(name = Constants.TENANT_ID_COLUMN, contextProperty = Constants.TENANT_ID_PROP, length = Constants.ID_MAX_LENGTH)
-@Table(name = "security_user")
+@Table(name = "user_timesheet")
 public class User extends EntityBase {
 
     @Column(name = "name")
