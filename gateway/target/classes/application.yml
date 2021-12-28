@@ -42,6 +42,7 @@ spring:
     user:
       name: admin
       password: admin
+     
 server:
   port: 8080
 eureka:
@@ -71,7 +72,7 @@ zuul:
       path: /google/**
       url: https://www.google.com/
     timesheet:
-      part: /timesheet/**
+      path: /timesheet/**
       url: http://admin:admin@localhost:9040/
 hystrix:
   command:

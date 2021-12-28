@@ -9,15 +9,17 @@ spring:
       max-file-size: 1000MB
       max-request-size: 1000MB
       file-size-threshold: 20KB
-  security:
-    user:
-      name: admin
-      password: admin
+#  security:
+#    user:
+#      name: admin
+#      password: admin
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${127.0.0.1:localhost}:3306/timesheet 
+    url: jdbc:mysql://${127.0.0.1:localhost}:3306/timesheet
     username: root
     password: root
+    
+
 
 #    url: jdbc:mysql://192.168.1.189:3306/timesheet
 #    username: manh
@@ -65,3 +67,4 @@ logging:
 movie-api:
   ribbon:
     listOfServers: http://localhost:9050
+  

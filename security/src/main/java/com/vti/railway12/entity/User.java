@@ -8,6 +8,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Formula;
+
+
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
@@ -31,7 +34,17 @@ public class User {
 	@NotBlank
 	@Size(max = 120)
 	private String password;
+	
+	@Column(name = "`firstName`", nullable = false, length = 50)
+	private String firstName;
 
+	@Column(name = "`lastName`", nullable = false, length = 50)
+	private String lastName;
+
+
+
+
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
@@ -41,10 +54,14 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, String email, String password) {
+	public User(@NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 50) @Email String email,
+			@NotBlank @Size(max = 120) String password, String firstName, String lastName) {
+		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public Long getId() {
@@ -79,6 +96,22 @@ public class User {
 		this.password = password;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -86,4 +119,19 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+
+	
+
+	
+
+
+
+	
+
+
+
+	
+
+
 }
